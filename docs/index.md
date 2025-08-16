@@ -1,23 +1,50 @@
-<div>
-  <img src="VideoLAN_organization_logo.png" alt="VideoLAN Logo" height="50">
-  <img src="GSoC-icon.png" alt="Google Summer of Code Logo" height="50" align="right">
+<div style="display: flex; justify-content: space-between; align-items: flex-start;">
+  <img src="VideoLAN_organization_logo.png" alt="VideoLAN Logo" height="50" />
+  <img src="GSoC-icon.png" alt="Google Summer of Code Logo" height="50" />
 </div>
+
+---
+layout: default
+title: "GSoC 2025 Final Report"
+---
 
 # GSoC 2025 Final Report
 
+
 ## VideoLAN – DVD-Audio Deciphering Module in VLC
+
 **Author:** Saifelden Mohamed Ismail  
 
 ---
 
 ## General Information
 
-| **Field** | **Details** |
-|-----------|-------------|
-| **Organization** | [VideoLAN](https://www.videolan.org/) |
-| **Project** | DVD-Audio Deciphering Module in VLC |
-| **Mentors** | Jean-Baptiste Kempf, Steve Lhomme |
-| **Proposal Link** | [Available here](https://summerofcode.withgoogle.com/programs/2025/projects/db95jRqT) |
+<table>
+  <thead>
+    <tr>
+      <th><strong>Field</strong></th>
+      <th><strong>Details</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Organization</strong></td>
+      <td><a href="https://www.videolan.org/">VideoLAN</a></td>
+    </tr>
+    <tr>
+      <td><strong>Project</strong></td>
+      <td>DVD-Audio Deciphering Module in VLC</td>
+    </tr>
+    <tr>
+      <td><strong>Mentors</strong></td>
+      <td>Jean-Baptiste Kempf, Steve Lhomme</td>
+    </tr>
+    <tr>
+      <td><strong>Proposal Link</strong></td>
+      <td><a href="https://summerofcode.withgoogle.com/programs/2025/projects/db95jRqT">Available here</a></td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
@@ -48,11 +75,11 @@ VLC now supports simple audio title-based playback on encrypted DVD-Audio discs 
   <table>
     <tr>
       <td align="center">
-        <img src="image.png" alt="DVD-Audio Disc Playback" width="400"><br>
+        <img src="image.png" alt="DVD-Audio Disc Playback" width="400" /><br>
         <em>DVD-Audio Disc Playback</em>
       </td>
       <td align="center">
-        <img src="preview.png" alt="Addition to Disc Menu" width="400"><br>
+        <img src="preview.png" alt="Addition to Disc Menu" width="400" /><br>
         <em>Addition to Disc Menu</em>
       </td>
     </tr>
@@ -63,14 +90,61 @@ VLC now supports simple audio title-based playback on encrypted DVD-Audio discs 
 
 ## Merge Requests
 
-| Project | Lines Added | Lines Removed | Description | Link |
-|---------|-------------|---------------|-------------|------|
-| **libdvdread** | 1205 | 133 | Initial DVD-Audio additions | [link](https://code.videolan.org/videolan/libdvdread/-/merge_requests/49) |
-| | 20 | 7 | Follow-up adjustments/fixes | [link](https://code.videolan.org/videolan/libdvdread/-/merge_requests/51) |
-| | 95 | 73 | Follow-up adjustments/fixes | [link](https://code.videolan.org/videolan/libdvdread/-/merge_requests/58) |
-| | 77 | 5 | Follow-up adjustments/fixes | [link](https://code.videolan.org/videolan/libdvdread/-/merge_requests/59) |
-| **libdvdcss** | 1492 | 9 | Initial CPPM support integration | [link](https://code.videolan.org/videolan/libdvdcss/-/merge_requests/13) |
-| **vlc** | - | - | DVD-Audio disc menu addition and submodule | [link](https://code.videolan.org/videolan/vlc/-/merge_requests/7542) |
+<table>
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>Lines Added</th>
+      <th>Lines Removed</th>
+      <th>Description</th>
+      <th>Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>libdvdread</strong></td>
+      <td>1205</td>
+      <td>133</td>
+      <td>Initial DVD-Audio additions</td>
+      <td><a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/49">link</a></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>20</td>
+      <td>7</td>
+      <td>Follow-up adjustments/fixes</td>
+      <td><a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/51">link</a></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>95</td>
+      <td>73</td>
+      <td>Follow-up adjustments/fixes</td>
+      <td><a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/58">link</a></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>77</td>
+      <td>5</td>
+      <td>Follow-up adjustments/fixes</td>
+      <td><a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/59">link</a></td>
+    </tr>
+    <tr>
+      <td><strong>libdvdcss</strong></td>
+      <td>1492</td>
+      <td>9</td>
+      <td>Initial CPPM support integration</td>
+      <td><a href="https://code.videolan.org/videolan/libdvdcss/-/merge_requests/13">link</a></td>
+    </tr>
+    <tr>
+      <td><strong>vlc</strong></td>
+      <td>-</td>
+      <td>-</td>
+      <td>DVD-Audio disc menu addition and submodule</td>
+      <td><a href="https://code.videolan.org/videolan/vlc/-/merge_requests/7542">link</a></td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
