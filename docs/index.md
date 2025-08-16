@@ -1,9 +1,19 @@
+
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="left"><img src="VideoLAN_organization_logo.png" alt="VideoLAN Logo" width="96" /></td>
+    <td align="right"><img src="GSoC-icon.png" alt="GSoC Logo" width="96" /></td>
+  </tr>
+</table>
+
+# Your title here
+
+Content begins below the logos.
+
+
 # GSoC 2025 Final Report  
 **VideoLAN – DVD-Audio Deciphering Module in VLC**  
 **Author:** Saifelden Mohamed Ismail  
-
-![VideoLAN Logo](VideoLAN_organization_logo.png) ![GSoC Logo](GSoC-icon.png)
-
 ---
 
 ## General Information
