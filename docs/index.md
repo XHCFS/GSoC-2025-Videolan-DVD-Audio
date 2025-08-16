@@ -1,7 +1,6 @@
-<div style="display: grid; grid-template-columns: auto 1fr auto; width: 100%;">
-  <img src="VideoLAN_organization_logo.png" alt="VideoLAN Logo" height="60">
-  <div></div>
-  <img src="GSoC-icon.png" alt="Google Summer of Code Logo" height="60">
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); justify-items: start; width: 100%;">
+  <img src="VideoLAN_organization_logo.png" alt="VideoLAN Logo" height="60" style="justify-self: start; max-width: 100%;">
+  <img src="GSoC-icon.png" alt="Google Summer of Code Logo" height="60" style="justify-self: end; max-width: 100%;">
 </div>
 
 # GSoC 2025 Final Report  
@@ -52,6 +51,7 @@ VLC now supports simple audio title-based playback on encrypted DVD-Audio discs 
 | **libdvdread** | 1205 | 133  | Initial DVD-Audio additions                           | [link](https://code.videolan.org/videolan/libdvdread/-/merge_requests/49) |
 |              | 20   | 7    | Follow-up adjustments/fixes                           | [link](https://code.videolan.org/videolan/libdvdread/-/merge_requests/51) |
 |              | 95   | 73   | Follow-up adjustments/fixes                           | [link](https://code.videolan.org/videolan/libdvdread/-/merge_requests/58) |
+|              | 77   | 5    | Follow-up adjustments/fixes                           | [link](https://code.videolan.org/videolan/libdvdread/-/merge_requests/59) |
 | **libdvdcss**  | 1492 | 9    | Initial CPPM support integration                      | [link](https://code.videolan.org/videolan/libdvdcss/-/merge_requests/13) |
 | **vlc**        | y    | x    | DVD-Audio disc menu addition and submodule            | [link](https://code.videolan.org/videolan/vlc/-/merge_requests/7542) |
 
