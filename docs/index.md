@@ -2,7 +2,7 @@
 **VideoLAN – DVD-Audio Deciphering Module in VLC**  
 **Author:** Saifelden Mohamed Ismail  
 
-![VideoLAN Logo](videolan_logo.png) ![GSoC Logo](gsoc_logo.png)
+![VideoLAN Logo](VideoLAN_organization_logo.png) ![GSoC Logo](GSoC-icon.png)
 
 ---
 
