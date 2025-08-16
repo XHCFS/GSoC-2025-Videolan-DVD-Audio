@@ -1,6 +1,6 @@
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="VideoLAN_organization_logo.png" alt="VideoLAN Logo" height="60">
-  <img src="GSoC-icon.png" alt="Google Summer of Code Logo" height="60">
+<div style="display: flex; justify-content: space-between;">
+  <img src="VideoLAN_organization_logo.png" alt="VideoLAN Logo" height="60" style="align-self: flex-start;">
+  <img src="GSoC-icon.png" alt="Google Summer of Code Logo" height="60" style="align-self: flex-end;">
 </div>
 
 # GSoC 2025 Final Report  
