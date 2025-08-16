@@ -1,0 +1,15 @@
+# For GitHub-supported themes
+theme: jekyll-theme-cayman
+
+# For remote themes (more options)
+remote_theme: "mmistakes/minimal-mistakes"
+
+title: "GSoC 2025 Final Report"
+description: "DVD-Audio Deciphering Module in VLC"
+author: "Saifelden Mohamed Ismail"
+
+# Optional: Enable plugins
+plugins:
+  - jekyll-remote-theme
+  - jekyll-feed
+  - jekyll-sitemap
