@@ -5,221 +5,406 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GSoC 2025 Final Report - VideoLAN DVD-Audio</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
         }
         
         .hero-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            padding: 3rem 2rem;
             margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-        }
-        
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-        
-        .card-header {
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            padding: 1.5rem;
-        }
-        
-        .card-header.secondary {
-            background: var(--secondary-gradient);
-        }
-        
-        .card-header.success {
-            background: var(--success-gradient);
-        }
-        
-        .card-title {
-            margin: 0;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .stats-card {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            color: white;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             text-align: center;
-        }
-        
-        .merge-request-badge {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-            font-weight: 600;
         }
         
         .logo-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .logo-container img {
-            max-height: 80px;
-            filter: brightness(0) invert(1);
+            max-height: 60px;
+            width: auto;
         }
         
-        .feature-list {
-            list-style: none;
-            padding: 0;
+        .card {
+            border: none;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
         }
         
-        .feature-list li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
+        .card-header {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 1.5rem 2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
         
-        .feature-list li:last-child {
+        .card-body {
+            padding: 2rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .info-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-item:last-child {
             border-bottom: none;
         }
         
-        .feature-list li::before {
-            content: '✓';
-            color: #28a745;
-            font-weight: bold;
-            margin-right: 0.5rem;
+        .info-label {
+            font-weight: 600;
+            color: #495057;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-value {
+            color: #212529;
+        }
+        
+        .info-value a {
+            color: #6366f1;
+            text-decoration: none;
+        }
+        
+        .info-value a:hover {
+            text-decoration: underline;
+        }
+        
+        .goals-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .goals-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .goals-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .goals-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 1.3rem;
+            width: 6px;
+            height: 6px;
+            background: #6366f1;
+            border-radius: 50%;
         }
         
         .disc-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
         
-        .disc-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem;
-            border-radius: 10px;
+        .disc-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
             text-align: center;
+            border: 1px solid #e9ecef;
+        }
+        
+        .disc-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .disc-status {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .screenshots {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .screenshot-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        .screenshot-item {
+            text-align: center;
+        }
+        
+        .screenshot-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+        
+        .screenshot-caption {
+            font-style: italic;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .merge-requests {
+            margin: 0;
+        }
+        
+        .mr-section {
+            margin-bottom: 2rem;
+        }
+        
+        .mr-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .mr-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #6366f1;
+        }
+        
+        .mr-item {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 3px solid #6366f1;
+        }
+        
+        .mr-info {
+            flex-grow: 1;
+        }
+        
+        .mr-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .mr-stats {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .mr-link {
+            background: #6366f1;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+        
+        .mr-link:hover {
+            background: #5856eb;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .download-btn {
+            background: #6366f1;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .download-btn:hover {
+            background: #5856eb;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        
+        .challenge-list {
+            margin: 0;
         }
         
         .challenge-item {
-            background: rgba(255, 193, 7, 0.1);
-            border-left: 4px solid #ffc107;
-            padding: 1rem;
+            padding: 1.5rem;
             margin-bottom: 1rem;
-            border-radius: 0 10px 10px 0;
+            background: #fff8e1;
+            border-radius: 6px;
+            border-left: 4px solid #ffc107;
         }
         
-        .screenshot-container {
+        .challenge-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .challenge-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .future-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .future-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .future-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .future-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer {
             text-align: center;
-            margin: 2rem 0;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: #6c757d;
+            font-style: italic;
         }
         
-        .screenshot-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin: 1rem;
+        @media (max-width: 768px) {
+            .screenshot-row {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .mr-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .mr-link {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container py-4">
+    <div class="container py-5">
         <!-- Hero Section -->
-        <div class="hero-section text-white text-center">
+        <div class="hero-section">
             <div class="logo-container">
-                <img src="VideoLAN_organization_logo.png" alt="VideoLAN Logo" class="img-fluid">
-                <img src="GSoC-icon.png" alt="Google Summer of Code Logo" class="img-fluid">
+                <img src="VideoLAN_organization_logo.png" alt="VideoLAN Logo">
+                <img src="GSoC-icon.png" alt="Google Summer of Code Logo">
             </div>
-            <h1 class="display-4 fw-bold mb-3">GSoC 2025 Final Report</h1>
-            <h2 class="h3 mb-3">VideoLAN – DVD-Audio Deciphering Module in VLC</h2>
+            <h1 class="display-5 fw-bold mb-3">GSoC 2025 Final Report</h1>
+            <h2 class="h4 fw-normal mb-3 text-muted">VideoLAN – DVD-Audio Deciphering Module in VLC</h2>
             <p class="lead">Author: Saifelden Mohamed Ismail</p>
+            <div class="mt-4">
+                <a href="GSoC-final-report.pdf" class="download-btn" download>
+                    Download PDF Report
+                </a>
+            </div>
         </div>
 
-        <!-- General Information Card -->
-        <div class="card mb-4">
+        <!-- General Information -->
+        <div class="card">
             <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-info-circle"></i>
-                    General Information
-                </h3>
+                General Information
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <strong><i class="fas fa-building text-primary me-2"></i>Organization:</strong>
-                        <a href="https://www.videolan.org/" class="text-decoration-none">VideoLAN</a>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Organization</span>
+                        <div class="info-value"><a href="https://www.videolan.org/">VideoLAN</a></div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <strong><i class="fas fa-project-diagram text-success me-2"></i>Project:</strong>
-                        DVD-Audio Deciphering Module in VLC
+                    <div class="info-item">
+                        <span class="info-label">Project</span>
+                        <div class="info-value">DVD-Audio Deciphering Module in VLC</div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <strong><i class="fas fa-users text-info me-2"></i>Mentors:</strong>
-                        Jean-Baptiste Kempf, Steve Lhomme
+                    <div class="info-item">
+                        <span class="info-label">Mentors</span>
+                        <div class="info-value">Jean-Baptiste Kempf, Steve Lhomme</div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <strong><i class="fas fa-link text-warning me-2"></i>Proposal:</strong>
-                        <a href="https://summerofcode.withgoogle.com/programs/2025/projects/db95jRqT" class="text-decoration-none">Available here</a>
+                    <div class="info-item">
+                        <span class="info-label">Proposal Link</span>
+                        <div class="info-value"><a href="https://summerofcode.withgoogle.com/programs/2025/projects/db95jRqT">Available here</a></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Abstract Card -->
-        <div class="card mb-4">
-            <div class="card-header secondary">
-                <h3 class="card-title">
-                    <i class="fas fa-file-alt"></i>
-                    Abstract
-                </h3>
+        <!-- Abstract -->
+        <div class="card">
+            <div class="card-header">
+                Abstract
             </div>
             <div class="card-body">
-                <p class="mb-0">This project's initial aim was to add CPPM decryption support into VLC. However, more was required to support the DVD-Audio format, so the initial aims were expanded upon. The final deliverables were updates to <code>libdvdread</code> to support the DVD-Audio format, <code>libdvdcss</code> for the decryption support, as well as a submodule for simple playback in VLC.</p>
+                <p>This project's initial aim was to add CPPM decryption support into VLC. However, more was required to support the DVD-Audio format, so the initial aims were expanded upon. The final deliverables were updates to <code>libdvdread</code> to support the DVD-Audio format, <code>libdvdcss</code> for the decryption support, as well as a submodule for simple playback in VLC.</p>
             </div>
         </div>
 
-        <!-- Goals Card -->
-        <div class="card mb-4">
-            <div class="card-header success">
-                <h3 class="card-title">
-                    <i class="fas fa-target"></i>
-                    Project Goals
-                </h3>
+        <!-- Goals -->
+        <div class="card">
+            <div class="card-header">
+                Project Goals
             </div>
             <div class="card-body">
-                <ul class="feature-list">
+                <ul class="goals-list">
                     <li>Provide a public API to read CPPM encrypted DVD-Audio blocks in <code>libdvdcss</code></li>
                     <li>Provide a public API to change <code>libdvdread</code>'s behavior to read DVD-Audio discs</li>
                     <li>Provide a way for the user to play encrypted DVD-Audio discs directly in VLC</li>
@@ -227,201 +412,174 @@
             </div>
         </div>
 
-        <!-- Work Completed Card -->
-        <div class="card mb-4">
+        <!-- Work Completed -->
+        <div class="card">
             <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-check-circle"></i>
-                    Work Completed and Results
-                </h3>
+                Work Completed and Results
             </div>
             <div class="card-body">
-                <p>VLC now supports simple audio title-based playbook on encrypted DVD-Audio discs without the need to extract the audio data. This makes VLC one of the only ways to play this type of disc as-is. Both <code>libdvdread</code> and <code>libdvdcss</code> have been extended to support DVD-Audio features (IFO files, path structures, etc.) in an OS-agnostic way.</p>
+                <p>VLC now supports simple audio title-based playback on encrypted DVD-Audio discs without the need to extract the audio data. This makes VLC one of the only ways to play this type of disc as-is. Both <code>libdvdread</code> and <code>libdvdcss</code> have been extended to support DVD-Audio features (IFO files, path structures, etc.) in an OS-agnostic way.</p>
                 
-                <h5 class="mt-4 mb-3"><i class="fas fa-compact-disc me-2"></i>Tested Discs:</h5>
+                <h5 class="mt-4 mb-3">Tested Discs</h5>
                 <div class="disc-grid">
-                    <div class="disc-card">
-                        <i class="fas fa-lock mb-2"></i>
-                        <div>Deep Purple – <em>Machine Head</em></div>
-                        <small>(encrypted)</small>
+                    <div class="disc-item">
+                        <div class="disc-title">Deep Purple – Machine Head</div>
+                        <div class="disc-status">(encrypted)</div>
                     </div>
-                    <div class="disc-card">
-                        <i class="fas fa-unlock mb-2"></i>
-                        <div><em>Brain Salad Surgery</em></div>
-                        <small>(unencrypted)</small>
+                    <div class="disc-item">
+                        <div class="disc-title">Brain Salad Surgery</div>
+                        <div class="disc-status">(unencrypted)</div>
                     </div>
-                    <div class="disc-card">
-                        <i class="fas fa-lock mb-2"></i>
-                        <div>Fleetwood Mac – <em>Say You Will</em></div>
-                        <small>(encrypted)</small>
+                    <div class="disc-item">
+                        <div class="disc-title">Fleetwood Mac – Say You Will</div>
+                        <div class="disc-status">(encrypted)</div>
                     </div>
-                    <div class="disc-card">
-                        <i class="fas fa-lock mb-2"></i>
-                        <div>Eagles – <em>Hotel California</em></div>
-                        <small>(encrypted)</small>
+                    <div class="disc-item">
+                        <div class="disc-title">Eagles – Hotel California</div>
+                        <div class="disc-status">(encrypted)</div>
                     </div>
                 </div>
                 
-                <div class="screenshot-container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img src="image.png" alt="DVD-Audio Disc Playback" class="img-fluid">
-                            <p class="text-muted mt-2"><em>DVD-Audio Disc Playback</em></p>
+                <div class="screenshots">
+                    <div class="screenshot-row">
+                        <div class="screenshot-item">
+                            <img src="image.png" alt="DVD-Audio Disc Playback">
+                            <div class="screenshot-caption">DVD-Audio Disc Playback</div>
                         </div>
-                        <div class="col-md-6">
-                            <img src="preview.png" alt="Addition to Disc Menu" class="img-fluid">
-                            <p class="text-muted mt-2"><em>Addition to Disc Menu</em></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Merge Requests Card -->
-        <div class="card mb-4">
-            <div class="card-header secondary">
-                <h3 class="card-title">
-                    <i class="fas fa-code-branch"></i>
-                    Merge Requests
-                </h3>
-            </div>
-            <div class="card-body">
-                <!-- libdvdread -->
-                <h5 class="mb-3"><i class="fas fa-book me-2"></i>libdvdread</h5>
-                <div class="row mb-4">
-                    <div class="col-md-6 mb-2">
-                        <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
-                            <div>
-                                <strong>Initial DVD-Audio additions</strong>
-                                <div class="text-muted small">+1205 / -133 lines</div>
-                            </div>
-                            <a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/49" class="btn merge-request-badge">View MR</a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-2">
-                        <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
-                            <div>
-                                <strong>Follow-up fixes (1)</strong>
-                                <div class="text-muted small">+20 / -7 lines</div>
-                            </div>
-                            <a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/51" class="btn merge-request-badge">View MR</a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-2">
-                        <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
-                            <div>
-                                <strong>Follow-up fixes (2)</strong>
-                                <div class="text-muted small">+95 / -73 lines</div>
-                            </div>
-                            <a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/58" class="btn merge-request-badge">View MR</a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-2">
-                        <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
-                            <div>
-                                <strong>Follow-up fixes (3)</strong>
-                                <div class="text-muted small">+77 / -5 lines</div>
-                            </div>
-                            <a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/59" class="btn merge-request-badge">View MR</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- libdvdcss -->
-                <h5 class="mb-3"><i class="fas fa-shield-alt me-2"></i>libdvdcss</h5>
-                <div class="row mb-4">
-                    <div class="col-md-6 mb-2">
-                        <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
-                            <div>
-                                <strong>Initial CPPM support integration</strong>
-                                <div class="text-muted small">+1492 / -9 lines</div>
-                            </div>
-                            <a href="https://code.videolan.org/videolan/libdvdcss/-/merge_requests/13" class="btn merge-request-badge">View MR</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- VLC -->
-                <h5 class="mb-3"><i class="fas fa-play me-2"></i>VLC</h5>
-                <div class="row">
-                    <div class="col-md-6 mb-2">
-                        <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
-                            <div>
-                                <strong>DVD-Audio disc menu addition</strong>
-                                <div class="text-muted small">Submodule integration</div>
-                            </div>
-                            <a href="https://code.videolan.org/videolan/vlc/-/merge_requests/7542" class="btn merge-request-badge">View MR</a>
+                        <div class="screenshot-item">
+                            <img src="preview.png" alt="Addition to Disc Menu">
+                            <div class="screenshot-caption">Addition to Disc Menu</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Challenges Card -->
-        <div class="card mb-4">
-            <div class="card-header secondary">
-                <h3 class="card-title">
-                    <i class="fas fa-mountain"></i>
-                    Challenges
-                </h3>
+        <!-- Merge Requests -->
+        <div class="card">
+            <div class="card-header">
+                Merge Requests
             </div>
             <div class="card-body">
-                <div class="challenge-item">
-                    <h6><i class="fas fa-book-open me-2"></i>Documentation Issues</h6>
-                    <p class="mb-0">This topic is heavily undocumented, and the available resources are often poorly explained or contain errors. Much of the effort was spent manually analyzing the format to replicate the desired behaviors.</p>
-                </div>
-                <div class="challenge-item">
-                    <h6><i class="fas fa-tools me-2"></i>Material Acquisition</h6>
-                    <p class="mb-0">There was initial trouble acquiring material to work on, though discs were generously provided by the foundation.</p>
-                </div>
-                <div class="challenge-item">
-                    <h6><i class="fas fa-code me-2"></i>Library Documentation</h6>
-                    <p class="mb-0">The DVD libraries are not as well documented as other pieces of software in VLC, causing initial friction in understanding how to extend them without breaking the API.</p>
-                </div>
-                <div class="challenge-item">
-                    <h6><i class="fas fa-git-alt me-2"></i>Code Standards</h6>
-                    <p class="mb-0">Reorganizing commits to fit VLC code standards was very time-consuming, though the remainder of the project ran more smoothly after the initial research phase.</p>
+                <div class="merge-requests">
+                    <!-- libdvdread -->
+                    <div class="mr-section">
+                        <div class="mr-title">libdvdread</div>
+                        <div class="mr-item">
+                            <div class="mr-info">
+                                <div class="mr-name">Initial DVD-Audio additions</div>
+                                <div class="mr-stats">+1205 / -133 lines</div>
+                            </div>
+                            <a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/49" class="mr-link">View</a>
+                        </div>
+                        <div class="mr-item">
+                            <div class="mr-info">
+                                <div class="mr-name">Follow-up adjustments/fixes</div>
+                                <div class="mr-stats">+20 / -7 lines</div>
+                            </div>
+                            <a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/51" class="mr-link">View</a>
+                        </div>
+                        <div class="mr-item">
+                            <div class="mr-info">
+                                <div class="mr-name">Follow-up adjustments/fixes</div>
+                                <div class="mr-stats">+95 / -73 lines</div>
+                            </div>
+                            <a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/58" class="mr-link">View</a>
+                        </div>
+                        <div class="mr-item">
+                            <div class="mr-info">
+                                <div class="mr-name">Follow-up adjustments/fixes</div>
+                                <div class="mr-stats">+77 / -5 lines</div>
+                            </div>
+                            <a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/59" class="mr-link">View</a>
+                        </div>
+                    </div>
+
+                    <!-- libdvdcss -->
+                    <div class="mr-section">
+                        <div class="mr-title">libdvdcss</div>
+                        <div class="mr-item">
+                            <div class="mr-info">
+                                <div class="mr-name">Initial CPPM support integration</div>
+                                <div class="mr-stats">+1492 / -9 lines</div>
+                            </div>
+                            <a href="https://code.videolan.org/videolan/libdvdcss/-/merge_requests/13" class="mr-link">View</a>
+                        </div>
+                    </div>
+
+                    <!-- VLC -->
+                    <div class="mr-section">
+                        <div class="mr-title">VLC</div>
+                        <div class="mr-item">
+                            <div class="mr-info">
+                                <div class="mr-name">DVD-Audio disc menu addition and submodule</div>
+                                <div class="mr-stats">Submodule integration</div>
+                            </div>
+                            <a href="https://code.videolan.org/videolan/vlc/-/merge_requests/7542" class="mr-link">View</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Future Work Card -->
-        <div class="card mb-4">
-            <div class="card-header success">
-                <h3 class="card-title">
-                    <i class="fas fa-rocket"></i>
-                    Future Work
-                </h3>
+        <!-- Challenges -->
+        <div class="card">
+            <div class="card-header">
+                Challenges
             </div>
             <div class="card-body">
-                <ul class="list-unstyled">
-                    <li class="mb-3">
-                        <i class="fas fa-video text-warning me-2"></i>
-                        <strong>Hybrid Disc Support:</strong> Support for hybrid disc behavior with video linking titles is not yet implemented.
+                <div class="challenge-list">
+                    <div class="challenge-item">
+                        <div class="challenge-title">Documentation Issues</div>
+                        <p>This topic is heavily undocumented, and the available resources are often poorly explained or contain errors. Much of the effort was spent manually analyzing the format to replicate the desired behaviors.</p>
+                    </div>
+                    <div class="challenge-item">
+                        <div class="challenge-title">Material Acquisition</div>
+                        <p>There was initial trouble acquiring material to work on, though discs were generously provided by the foundation.</p>
+                    </div>
+                    <div class="challenge-item">
+                        <div class="challenge-title">Library Documentation</div>
+                        <p>The DVD libraries are not as well documented as other pieces of software in VLC, causing initial friction in understanding how to extend them without breaking the API.</p>
+                    </div>
+                    <div class="challenge-item">
+                        <div class="challenge-title">Code Standards</div>
+                        <p>Reorganizing commits to fit VLC code standards was very time-consuming, though the remainder of the project ran more smoothly after the initial research phase.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Future Work -->
+        <div class="card">
+            <div class="card-header">
+                Future Work
+            </div>
+            <div class="card-body">
+                <ul class="future-list">
+                    <li>
+                        <div class="future-title">Hybrid Disc Support</div>
+                        <p>Support for hybrid disc behavior with video linking titles is not yet implemented.</p>
                     </li>
-                    <li class="mb-3">
-                        <i class="fas fa-menu text-info me-2"></i>
-                        <strong>Menu Integration:</strong> DVD-Audio menu integration similar to that in <code>libdvdnav</code> needs to be added.
+                    <li>
+                        <div class="future-title">Menu Integration</div>
+                        <p>DVD-Audio menu integration similar to that in <code>libdvdnav</code> needs to be added.</p>
                     </li>
-                    <li class="mb-3">
-                        <i class="fas fa-image text-success me-2"></i>
-                        <strong>Still Images:</strong> Exposing still images to the API should be added, as indicated in the Audio Still Video Set (ASVS) specifications.
+                    <li>
+                        <div class="future-title">Still Images</div>
+                        <p>Exposing still images to the API should be added, as indicated in the Audio Still Video Set (ASVS) specifications.</p>
                     </li>
-                    <li class="mb-0">
-                        <i class="fas fa-book text-danger me-2"></i>
-                        <strong>Documentation:</strong> The information required for these features is currently unavailable and undocumented in the unofficial specifications.
+                    <li>
+                        <div class="future-title">Documentation</div>
+                        <p>The information required for these features is currently unavailable and undocumented in the unofficial specifications.</p>
                     </li>
                 </ul>
             </div>
         </div>
 
-        <!-- Acknowledgements Card -->
-        <div class="card mb-4">
+        <!-- Acknowledgements -->
+        <div class="card">
             <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-heart"></i>
-                    Acknowledgements
-                </h3>
+                Acknowledgements
             </div>
             <div class="card-body">
                 <p>I would like to thank both of my mentors for their patience and time, and the foundation for providing me with difficult-to-access material for my work. This wouldn't have been possible without their guidance and support.</p>
@@ -429,33 +587,11 @@
         </div>
 
         <!-- Footer -->
-        <div class="text-center text-white mt-4">
-            <p class="mb-0"><em>This work was completed as part of Google Summer of Code 2025 with VideoLAN.</em></p>
+        <div class="footer">
+            <p>This work was completed as part of Google Summer of Code 2025 with VideoLAN.</p>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Add smooth scroll behavior and card animations
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.card');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            });
-
-            cards.forEach((card) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(card);
-            });
-        });
-    </script>
 </body>
 </html>
