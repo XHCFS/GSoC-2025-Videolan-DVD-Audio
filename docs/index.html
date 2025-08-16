@@ -15,6 +15,28 @@
             background-color: #f8f9fa;
             color: #212529;
             line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(25, 118, 210, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 118, 210, 0.03) 0%, transparent 50%);
+            background-attachment: fixed;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231976d2' fill-opacity='0.015'%3E%3Cpath d='M30 15 L45 30 L30 45 L15 30 Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+                url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231976d2' fill-opacity='0.01'%3E%3Ccircle cx='20' cy='20' r='8'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+                url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231976d2' fill-opacity='0.008'%3E%3Cpolygon points='40,0 60,30 40,60 20,30'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-size: 60px 60px, 40px 40px, 80px 80px;
+            background-position: 0 0, 30px 30px, 0 40px;
+            pointer-events: none;
+            z-index: -1;
         }
         
         .container {
@@ -23,10 +45,10 @@
         
         .hero-section {
             background: white;
-            border-radius: 12px;
-            padding: 3rem 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            padding: 2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
             text-align: center;
         }
         
@@ -47,24 +69,24 @@
         
         .card {
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             background: white;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            margin-bottom: 1rem;
             overflow: hidden;
         }
         
         .card-header {
-            background: #6366f1;
+            background: #1976d2;
             color: white;
             border: none;
-            padding: 1.5rem 2rem;
-            font-weight: 600;
-            font-size: 1.1rem;
+            padding: 1.25rem 1.5rem;
+            font-weight: 500;
+            font-size: 1rem;
         }
         
         .card-body {
-            padding: 2rem;
+            padding: 1.5rem;
         }
         
         .info-grid {
@@ -94,7 +116,7 @@
         }
         
         .info-value a {
-            color: #6366f1;
+            color: #1976d2;
             text-decoration: none;
         }
         
@@ -124,9 +146,9 @@
             position: absolute;
             left: 0;
             top: 1.3rem;
-            width: 6px;
-            height: 6px;
-            background: #6366f1;
+            width: 4px;
+            height: 4px;
+            background: #1976d2;
             border-radius: 50%;
         }
         
@@ -200,22 +222,22 @@
         }
         
         .mr-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid #6366f1;
+            border-bottom: 2px solid #1976d2;
         }
         
         .mr-item {
             display: flex;
             justify-content: between;
             align-items: center;
-            padding: 1rem;
+            padding: 0.75rem;
             margin-bottom: 0.5rem;
-            background: #f8f9fa;
-            border-radius: 6px;
-            border-left: 3px solid #6366f1;
+            background: #fafafa;
+            border-radius: 4px;
+            border-left: 3px solid #1976d2;
         }
         
         .mr-info {
@@ -233,27 +255,27 @@
         }
         
         .mr-link {
-            background: #6366f1;
+            background: #1976d2;
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.375rem 0.75rem;
             border-radius: 4px;
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             margin-left: 1rem;
         }
         
         .mr-link:hover {
-            background: #5856eb;
+            background: #1565c0;
             color: white;
             text-decoration: none;
         }
         
         .download-btn {
-            background: #6366f1;
+            background: #1976d2;
             border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 8px;
+            padding: 0.625rem 1.5rem;
+            border-radius: 4px;
             color: white;
             text-decoration: none;
             font-weight: 500;
@@ -261,14 +283,15 @@
             align-items: center;
             gap: 0.5rem;
             transition: all 0.2s ease;
+            font-size: 0.9rem;
         }
         
         .download-btn:hover {
-            background: #5856eb;
+            background: #1565c0;
             color: white;
             text-decoration: none;
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
         }
         
         .challenge-list {
@@ -276,11 +299,11 @@
         }
         
         .challenge-item {
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            background: #fff8e1;
-            border-radius: 6px;
-            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background: #fff3e0;
+            border-radius: 4px;
+            border-left: 3px solid #ff9800;
         }
         
         .challenge-item:last-child {
@@ -288,8 +311,9 @@
         }
         
         .challenge-title {
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 0.5rem;
+            font-size: 0.95rem;
         }
         
         .future-list {
@@ -308,8 +332,9 @@
         }
         
         .future-title {
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 0.5rem;
+            font-size: 0.95rem;
         }
         
         .footer {
