@@ -1,14 +1,7 @@
-
-<table width="100%" cellpadding="0" cellspacing="0">
-  <tr>
-    <td align="left"><img src="VideoLAN_organization_logo.png" alt="VideoLAN Logo" width="96" /></td>
-    <td align="right"><img src="GSoC-icon.png" alt="GSoC Logo" width="96" /></td>
-  </tr>
-</table>
-
-# Your title here
-
-Content begins below the logos.
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/VideoLAN_logo.svg" alt="VideoLAN" height="80">
+  <img src="https://summerofcode.withgoogle.com/assets/media/logo.svg" alt="GSoC" height="80">
+</div>
 
 
 # GSoC 2025 Final Report  
