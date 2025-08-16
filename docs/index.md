@@ -3,11 +3,6 @@
   <img src="GSoC-icon.png" alt="Google Summer of Code Logo" height="50" />
 </div>
 
----
-layout: default
-title: "GSoC 2025 Final Report"
----
-
 # GSoC 2025 Final Report
 
 
