@@ -1,8 +1,7 @@
 <div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="VideoLAN_organization_logo.png" alt="VideoLAN" height="80">
-  <img src="https://summerofcode.withgoogle.com/assets/media/logo.svg" alt="GSoC" height="80">
+<img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/VideoLAN_logo.svg" alt="VideoLAN" height="30">
+<img src="https://summerofcode.withgoogle.com/assets/media/logo.svg" alt="GSoC" height="30">
 </div>
-
 
 # GSoC 2025 Final Report  
 **VideoLAN – DVD-Audio Deciphering Module in VLC**  
