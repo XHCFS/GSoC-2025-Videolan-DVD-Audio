@@ -211,36 +211,92 @@
             color: #6c757d;
         }
         
-        .screenshots {
+        .demo-showcase {
             margin: 2rem 0;
             padding: 2rem;
-            background: #f8f9fa;
-            border-radius: 8px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
         
-        .screenshot-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: start;
-        }
-        
-        .screenshot-item {
+        .demo-header {
             text-align: center;
+            margin-bottom: 2rem;
         }
         
-        .screenshot-item img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1rem;
+        .demo-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.5rem;
         }
         
-        .screenshot-caption {
-            font-style: italic;
+        .demo-subtitle {
+            font-size: 1.1rem;
+            color: #0d71b8;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .demo-description {
             color: #6c757d;
-            font-size: 0.9rem;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+        
+        .video-container {
+            position: relative;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        
+        .video-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(13, 113, 184, 0.1), rgba(13, 113, 184, 0.05));
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .demo-video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 1.5rem;
+            z-index: 3;
+            pointer-events: none;
+        }
+        
+        .video-overlay-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .video-overlay-subtitle {
+            font-size: 0.85rem;
+            opacity: 0.9;
         }
         
         .merge-requests {
@@ -428,11 +484,6 @@
         }
         
         @media (max-width: 768px) {
-            .screenshot-row {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
             .logo-container {
                 flex-direction: column;
                 gap: 1rem;
@@ -446,6 +497,18 @@
             .mr-link {
                 margin-left: 0;
                 margin-top: 0.5rem;
+            }
+            
+            .demo-showcase {
+                padding: 1.5rem;
+            }
+            
+            .demo-title {
+                font-size: 1.25rem;
+            }
+            
+            .video-overlay {
+                padding: 1rem;
             }
         }
     </style>
@@ -548,15 +611,20 @@
                     </div>
                 </div>
                 
-                <div class="screenshots">
-                    <div class="screenshot-row">
-                        <div class="screenshot-item">
-                            <img src="image.png" alt="DVD-Audio Disc Playback">
-                            <div class="screenshot-caption">DVD-Audio Disc Playback</div>
-                        </div>
-                        <div class="screenshot-item">
-                            <img src="preview.png" alt="Addition to Disc Menu">
-                            <div class="screenshot-caption">Addition to Disc Menu</div>
+                <div class="demo-showcase">
+                    <div class="demo-header">
+                        <div class="demo-title">Live Demonstration</div>
+                        <div class="demo-subtitle">Fleetwood Mac – Say You Will</div>
+                        <div class="demo-description">DVD-Audio disc playback in VLC media player</div>
+                    </div>
+                    <div class="video-container">
+                        <video class="demo-video" controls preload="metadata" poster="">
+                            <source src="vlc-demo.mp4" type="video/mp4">
+                            <p>Your browser doesn't support HTML video. <a href="vlc-demo.mp4">Download the demo video</a> instead.</p>
+                        </video>
+                        <div class="video-overlay">
+                            <div class="video-overlay-title">DVD-Audio Playback Demo</div>
+                            <div class="video-overlay-subtitle">Encrypted disc successfully decrypted and played</div>
                         </div>
                     </div>
                 </div>
