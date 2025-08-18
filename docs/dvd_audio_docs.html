@@ -912,8 +912,9 @@ typedef struct {
                     <p>Some information on this is available at: <a href="https://code.videolan.org/videolan/libdvdread/-/issues/22" target="_blank">https://code.videolan.org/videolan/libdvdread/-/issues/22</a></p>
                 </div>
                 
-                <p>The structure should be clarified since it is not as it is described in the unofficial specifications.</p>
-                
+                <p>The structure should be clarified since it is not as it is described in the unofficial specifications </p>
+                <p>In atsi_title_record_t, the unofficial specifications mistakingly includes an extra unknown field. This was removed since no discs display this</p>
+
                 <table class="struct-table">
                     <thead>
                         <tr>
@@ -956,6 +957,16 @@ typedef struct {
                 <div class="api-function">
                     <div class="function-name">dvdcpxm_init</div>
                     <p>An additional step that did not exist previously in the dvdcss methods. This initialization of CPXM discs needed to be split into two: one before the disc was actually opened, and one after.</p>
+                </div>
+
+                <div class="api-function">
+                    <div class="function-name">dvdcpxm_read, dvdcpxm_readv</div>
+                    This uses libdvdcpxm decrypt functions in place of css_unscramble, which utilizes the C2 Cypher
+                </div>
+
+                <div class="api-function">
+                    <div class="function-name">dvdcpxm_seek</div>
+                    standard seek , removed all of the additional behavior inside of dvdcss functions that is unnecessary
                 </div>
                 
                 <p>This is because this encryption method needs to read a file that exists within the disc (The MKB) in order to initialize its internal struct.</p>
