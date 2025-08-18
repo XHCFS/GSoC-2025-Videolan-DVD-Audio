@@ -384,6 +384,36 @@
             box-shadow: 0 2px 8px rgba(13, 113, 184, 0.3);
         }
         
+        .docs-btn {
+            background: #28a745;
+            border: none;
+            padding: 0.625rem 1.5rem;
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+        
+        .docs-btn:hover {
+            background: #218838;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+        
         .challenge-list {
             margin: 0;
         }
@@ -510,6 +540,16 @@
             .video-overlay {
                 padding: 1rem;
             }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .button-group a {
+                width: 200px;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -526,9 +566,14 @@
             <p class="lead">Author: Saifelden Mohamed Ismail</p>
             <p class="text-muted">saifeldenmi@gmail.com</p>
             <div class="mt-4">
-                <a href="GSoC-final-report.pdf" class="download-btn" download>
-                    Download PDF Report
-                </a>
+                <div class="button-group">
+                    <a href="GSoC-final-report.pdf" class="download-btn" download>
+                        Download PDF Report
+                    </a>
+                    <a href="dvd-audio-docs.html" class="docs-btn">
+                        View Documentation
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -665,7 +710,7 @@
                         <div class="mr-item">
                             <div class="mr-info">
                                 <div class="mr-name">Follow-up adjustments/fixes</div>
-                                <div class="mr-stats">+77 / -5 lines</div>
+                                <div class="mr-stats">+199 / −81 lines</div>
                             </div>
                             <a href="https://code.videolan.org/videolan/libdvdread/-/merge_requests/59" class="mr-link">View</a>
                         </div>
