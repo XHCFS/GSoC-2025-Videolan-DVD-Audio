@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DVD-Audio API Documentation - VideoLAN GSoC 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-x: hidden;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #212529;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(13, 113, 184, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(13, 113, 184, 0.08) 0%, transparent 50%);
+            background-attachment: fixed;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%230d71b8' stroke-width='2' fill='none' stroke-opacity='0.08'%3E%3C!-- X at top left --%3E%3Cpath d='M8,8 L22,22 M22,8 L8,22'/%3E%3C!-- O at top right --%3E%3Ccircle cx='45' cy='15' r='8'/%3E%3C!-- O at bottom left --%3E%3Ccircle cx='15' cy='45' r='8'/%3E%3C!-- X at bottom right --%3E%3Cpath d='M38,38 L52,52 M52,38 L38,52'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 60px 60px;
+            background-position: 0 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        @media (max-width: 768px) {
+            body::before {
+                background-image: 
+                    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%230d71b8' stroke-width='2' fill='none' stroke-opacity='0.15'%3E%3C!-- X at top left --%3E%3Cpath d='M8,8 L22,22 M22,8 L8,22'/%3E%3C!-- O at top right --%3E%3Ccircle cx='45' cy='15' r='8'/%3E%3C!-- O at bottom left --%3E%3Ccircle cx='15' cy='45' r='8'/%3E%3C!-- X at bottom right --%3E%3Cpath d='M38,38 L52,52 M52,38 L38,52'/%3E%3C/g%3E%3C/svg%3E");
+            }
+        }
+        
+        .container {
+            max-width: 1100px;
+            flex: 1;
+            margin-bottom: 6rem;
+        }
+        
+        .header-section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            text-align: center;
+        }
+        
+        .back-link {
+            background: #6c757d;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .back-link:hover {
+            background: #5a6268;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background: #0d71b8;
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        .toc {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        
+        .toc h5 {
+            margin-bottom: 1rem;
+            color: #0d71b8;
+            font-weight: 600;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            color: #495057;
+            text-decoration: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: block;
+            transition: all 0.2s ease;
+        }
+        
+        .toc a:hover {
+            background: #e9ecef;
+            color: #0d71b8;
+            text-decoration: none;
+        }
+        
+        .toc .toc-sub {
+            padding-left: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .toc .toc-sub li {
+            margin-bottom: 0.25rem;
+        }
+        
+        .toc .toc-sub a {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        pre {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: inherit;
+        }
+        
+        code {
+            background: #f1f3f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d73a49;
+        }
+        
+        .struct-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .struct-table th,
+        .struct-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+        
+        .struct-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .struct-table td code {
+            background: #f1f3f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.8em;
+        }
+        
+        .disc-structure {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #0d71b8;
+            margin: 1.5rem 0;
+        }
+        
+        .disc-structure h6 {
+            color: #0d71b8;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .hierarchy {
+            font-family: monospace;
+            background: white;
+            padding: 1rem;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+            white-space: pre-line;
+            font-size: 0.85rem;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .warning-box .warning-title {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+        
+        .warning-box p {
+            color: #856404;
+            margin: 0;
+        }
+        
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .info-box .info-title {
+            font-weight: 600;
+            color: #0c5460;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-box p {
+            color: #0c5460;
+            margin: 0;
+        }
+        
+        .api-function {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .api-function .function-name {
+            font-family: monospace;
+            font-weight: 600;
+            color: #0d71b8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .limitations {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            border-left: 3px solid #dc3545;
+        }
+        
+        .limitations h6 {
+            color: #dc3545;
+            margin-bottom: 0.5rem;
+        }
+        
+        .limitations ul {
+            margin-bottom: 0;
+        }
+        
+        .footer {
+            background: white;
+            margin-top: auto;
+            padding: 3rem 0;
+            border-top: 1px solid #e9ecef;
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            box-sizing: border-box;
+        }
+        
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #0d71b8;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .footer-links a:hover {
+            background: #f8f9fa;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .card-body {
+                padding: 1.5rem;
+            }
+            
+            .struct-table {
+                font-size: 0.8rem;
+            }
+            
+            .struct-table th,
+            .struct-table td {
+                padding: 0.5rem;
+            }
+            
+            pre {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <!-- Header Section -->
+        <div class="header-section">
+            <a href="index.html" class="back-link">
+                ← Back to Final Report
+            </a>
+            <h1 class="display-6 fw-bold mb-3">DVD-Audio API Documentation</h1>
+            <p class="lead">Technical documentation for libdvdread and libdvdcss DVD-Audio extensions</p>
+            <p class="text-muted">GSoC 2025 Project Documentation</p>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="card">
+            <div class="card-body">
+                <div class="toc">
+                    <h5>Table of Contents</h5>
+                    <ul>
+                        <li><a href="#overview">Overview</a></li>
+                        <li><a href="#libdvdread-api">DVD-Audio New Public API in libdvdread</a>
+                            <ul class="toc-sub">
+                                <li><a href="#dvd-audio-functions">New DVD-Audio Functions</a></li>
+                                <li><a href="#api-differences">API Differences and Limitations</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#disc-structure">DVD-Audio Disc Structure</a></li>
+                        <li><a href="#ifo-types">New IFO Types</a>
+                            <ul class="toc-sub">
+                                <li><a href="#samg-mat">samg_mat_t</a></li>
+                                <li><a href="#samg-chapter">samg_chapter_t</a></li>
+                                <li><a href="#downmix-coeff">downmix_coeff_t</a></li>
+                                <li><a href="#amgi">AMGI</a></li>
+                                <li><a href="#disc-overview-table">Disc Overview Table</a></li>
+                                <li><a href="#atsi-mat">atsi_mat_t</a></li>
+                                <li><a href="#atsi-title-table">atsi_title_table_t</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#libdvdcss-additions">Additions to libdvdcss</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overview -->
+        <div class="card" id="overview">
+            <div class="card-header">
+                Overview
+            </div>
+            <div class="card-body">
+                <p>The following is a brief set of notes on notable additions and behaviors for users of the new DVD-Audio API for libdvdread and libdvdcss.</p>
+                
+                <div class="info-box">
+                    <div class="info-title">Key Changes</div>
+                    <p>These extensions allow for minimal modification to the existing API while providing full DVD-Audio support including IFO reading, path structures, and decryption capabilities.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DVD-Audio API -->
+        <div class="card" id="libdvdread-api">
+            <div class="card-header">
+                DVD-Audio New Public API in libdvdread
+            </div>
+            <div class="card-body">
+                <h5 id="dvd-audio-functions">New DVD-Audio Functions</h5>
+                <p>Two new functions were added for opening DVD-Audio discs:</p>
+                
+                <div class="api-function">
+                    <div class="function-name">DVDOpenAudio</div>
+                    <p>Opens a DVD-Audio disc for reading</p>
+                </div>
+                
+                <div class="api-function">
+                    <div class="function-name">DVDOpenAudioStream</div>
+                    <p>Opens a DVD-Audio stream for reading</p>
+                </div>
+                
+                <p>Using these functions instead of the standard DVDOpen functions will store an internal state that allows the behavior of all subsequent calls to be modified for DVD-Audio. This includes which IFOs are opened and how they're read, the path names, and the decryption methods used for the dvdinput functions.</p>
+                
+                <p>This approach allowed for as little modification as possible to the existing API.</p>
+                
+                <h5 id="api-differences" class="mt-4">API Differences and Limitations</h5>
+                <p><code>DVDOpenFile(dvd_reader_t *ctx, int titlenum, dvd_read_domain_t domain)</code> has been extended to work for both DVD-Audio and DVD-Video with the desired behavior in both cases, with the following limitations:</p>
+                
+                <div class="limitations">
+                    <h6>Limitations</h6>
+                    <ul>
+                        <li><strong>DVD_READ_MENU_VOBS:</strong> For DVD-Audio, there is only one menu VOB, which is the main AUDIO_TS.VOB. Any call to this for DVD-Audio will default to this menu.</li>
+                        <li><strong>DVD_READ_SAMG_INFO:</strong> This can only be called for DVD-Audio; otherwise it returns NULL and a debug statement.</li>
+                    </ul>
+                </div>
+                
+                <p>In addition, <code>ifoOpenVMGI</code> and <code>ifoOpenVTSI</code> will open their respective audio versions if <code>DVDOpenAudio</code> is used instead of <code>DVDOpen</code> to get the dvd_reader struct, along with <code>ifoRead_TT</code> and <code>ifoRead_TIF</code>.</p>
+            </div>
+        </div>
+
+        <!-- Disc Structure -->
+        <div class="card" id="disc-structure">
+            <div class="card-header">
+                DVD-Audio Disc Structure Overview
+            </div>
+            <div class="card-body">
+                <div class="disc-structure">
+                    <h6>General Structure</h6>
+                    <p>Information taken from the Discwelder Chrome Manual:</p>
+                    <div class="hierarchy">Album (Disc)
+├── Groups (Titlesets)
+│   ├── Titles
+│   │   ├── Tracks
+│   │   └── Trackpoints (optional)
+│   │       └── Still Images (optional)
+│   └── Different Audio Formats
+│       ├── LPCM
+│       ├── MLP
+│       └── DTS</div>
+                </div>
+                
+                <p>Each DVD-Audio disc represents an Album. Inside this album, there are several Titlesets or "Groups". Each Group/Titleset contains several Titles. Titles contain Tracks and can be different Audio format types. For example, one title could be LPCM, one could be MLP, DTS, etc., possibly of the same tracks.</p>
+                
+                <p>I've also seen a layout where some titles are "extras" or other similar information. Inside Titles, along with the tracks, there can be "trackpoints". Trackpoints are areas in the disc that the author would like the user to be able to seek to automatically. These trackpoints can be assigned their own still images as well. I have seen this be used to display "Lyrics" (each set of lyrics with its own trackpoints).</p>
+                
+                <div class="warning-box">
+                    <div class="warning-title">Disclaimer</div>
+                    <p>No official specifications are released, and information may be flimsy in some areas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- New IFO Types -->
+        <div class="card" id="ifo-types">
+            <div class="card-header">
+                New IFO Types
+            </div>
+            <div class="card-body">
+                <p>IFOs are files that describe the structure of a DVD disc and what is contained within it so that it can be read properly by a DVD-Reader.</p>
+                
+                <p>DVD-Audio IFOs are different and contain different tables and layouts. For this reason, the IFO struct has been placed in a union struct: one for DVD-Audio IFO type and one for DVD-Video, with a new "ifo_format" member to determine the type of IFO.</p>
+                
+                <pre><code>/* format type will be used to reduce amount of code refactoring, hopefully add some 
+ * detection mechanism later as well.
+ */
+typedef struct {
+  union{
+    struct{
+      /* VMGI */
+      vmgi_mat_t     *vmgi_mat;
+      tt_srpt_t      *tt_srpt;
+      pgc_t          *first_play_pgc;
+      ptl_mait_t     *ptl_mait;
+      vts_atrt_t     *vts_atrt;
+      txtdt_mgi_t    *txtdt_mgi;
+
+      /* Common */
+      pgci_ut_t      *pgci_ut;
+      c_adt_t        *menu_c_adt;
+      vobu_admap_t   *menu_vobu_admap;
+
+      /* VTSI */
+      vtsi_mat_t     *vtsi_mat;
+      vts_ptt_srpt_t *vts_ptt_srpt;
+      pgcit_t        *vts_pgcit;
+      vts_tmapt_t    *vts_tmapt;
+      c_adt_t        *vts_c_adt;
+      vobu_admap_t   *vts_vobu_admap;
+    };
+
+    struct{
+      /* SAMG */
+      samg_mat_t             *samg_mat;
+
+      /* AMGI */
+      amgi_mat_t             *amgi_mat;
+      tracks_info_table_t    *info_table_first_sector;
+      tracks_info_table_t    *info_table_second_sector;
+
+      /* ATSI */
+      atsi_mat_t             *atsi_mat;
+      atsi_title_table_t     *atsi_title_table;
+    };
+  };
+
+  ifo_format_t ifo_format;
+} ifo_handle_t;</code></pre>
+                
+                <p>This approach allowed for the least amount of code refactoring, since all future open functions will use the same type. The following new IFO structs have been documented here, with some fields removed or modified based on errors spotted and new information gathered from examples.</p>
+
+                <h5 id="samg-mat" class="mt-4">samg_mat_t</h5>
+                <p>DVD-Audio contains two main audio managers: AUDIO_TS.IFO along with its ATS (Audio Title Set) IFOs and AUDIO_PP.IFO. According to the unofficial documentation, AUDIO_PP.IFO is used for simple DVD-Audio players, and it seems that this IFO file alone is sufficient to describe the disc structure. Though, it seems this cannot be used to play menus with video linking on complex discs.</p>
+                
+                <pre><code>typedef struct {
+  char           samg_identifier[12];
+  uint16_t       nr_chapters;
+  uint16_t       specification_version;
+  samg_chapter_t *samg_chapters;
+} ATTRIBUTE_PACKED samg_mat_t;
+#define SAMG_MAT_SIZE 16U</code></pre>
+                
+                <table class="struct-table">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>samg_identifier</code></td>
+                            <td>Generally all files on a DVD contain a 12-character identifier that describes the name of the file</td>
+                        </tr>
+                        <tr>
+                            <td><code>nr_chapters</code></td>
+                            <td>All tables should contain a header that describes how to read the table, usually with some indicator of its size (how to allocate the arrays inside it)</td>
+                        </tr>
+                        <tr>
+                            <td><code>specification_version</code></td>
+                            <td>A specifications version is in all IFO files and will likely be 0x0012</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h5 id="samg-chapter" class="mt-4">samg_chapter_t</h5>
+                <pre><code>typedef struct {
+  uint16_t zero_1;
+  uint8_t  group_num;
+  uint8_t  chapter_num; /* chapter number within group*/
+  uint32_t timestamp_pts; /* this is MPEG time, Not DVD time */
+  uint32_t chapter_len;
+  uint32_t zero_2;
+  uint8_t  record_code;
+  uint8_t  bit_depth;
+  uint8_t  sampling_rate;
+  uint8_t  nr_channels; 
+  /* some DVDs made with authoring software keep downmix coefficients here */
+  /* since I do not have samples of commercial discs that do this, I will not include it */
+  uint8_t  zero_3[20];
+  uint32_t start_sector_1; /*aob start sector*/
+  uint32_t start_sector_2; /*aob start sector is repeated again */
+  uint32_t end_sector;
+} ATTRIBUTE_PACKED samg_chapter_t;
+#define SAMG_CHAPTER_SIZE 52U</code></pre>
+                
+                <p>SAMG chapters are like "Tracks", but according to unofficial documentation also seem to contain video "chapters", under the condition that chapter_len is set to zero. Video linking behavior has not yet been written due to no existing documentation and seems to be tied to menu integration. For this reason, this struct is not the one used in the VLC submodule.</p>
+                
+                <table class="struct-table">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>group_num</code></td>
+                            <td>Each group has one IFO and can contain one or more AOB files. Each entry here describes where to find the track (what specific address in the group to access). Groups in libdvdread are opened as one block (all the AOBs in one go)</td>
+                        </tr>
+                        <tr>
+                            <td><code>start_sector_1/2</code></td>
+                            <td>The fact that the start address is repeated twice is not a mistake. It is likely there is a reason for this, that there may be some special case where the second value describes something slightly different with a different offset, though for now this is unknown</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p>Information on the nature of the Audio (nr_channels, bit_depth) seems unnecessary and is deduced from the Audio packets by the demuxer.</p>
+
+                <h5 id="downmix-coeff" class="mt-4">downmix_coeff_t</h5>
+                <pre><code>/* Downmix coefficients can be used to reduce 5.1 channels to stereo in DVD-Audio Discs */
+/** Downmix equations
+ * Left_out  = Lf_left  * Lf
+ *           + Rf_left  * Rf
+ *           + C_left   * C
+ *           + LFE_left * LFE
+ *           + Ls_left  * Ls
+ *           + Rs_left  * Rs;
+ * 
+ * Right_out = Lf_right  * Lf
+ *           + Rf_right  * Rf
+ *           + C_right   * C
+ *           + LFE_right * LFE
+ *           + Ls_right  * Ls
+ *           + Rs_right  * Rs;
+ * 
+ * Where:
+ *   - Lf, Rf, C, LFE, Ls, Rs are the 5.1 input channels
+ *   - Left_out, Right_out are the stereo output channels
+ *   - Each coefficient (e.g. Lf_left, C_right) is an 8-bit gain factor
+ */
+
+typedef struct {
+  /* it seems each entry is started and ended with padding */
+  uint16_t zero_1;
+  /* each coefficient corresponds to stereo side for a channel in 5.1 */
+  uint8_t Lf_left;
+  uint8_t Lf_right;
+  uint8_t Rf_left;
+  uint8_t Rf_right;
+  uint8_t C_left;
+  uint8_t C_right;
+  uint8_t LFE_left;
+  uint8_t LFE_right;
+  uint8_t Ls_left;
+  uint8_t Ls_right;
+  uint8_t Rs_left;
+  uint8_t Rs_right;
+
+  uint16_t zero_2;
+} ATTRIBUTE_PACKED downmix_coeff_t;
+#define DOWNMIX_COEFF_SIZE 16U</code></pre>
+                
+                <p>Downmix coefficients can be set in commercial authoring software and are used to turn 5.1 channel audio into stereo. They currently are not used anywhere. Discs authored with Discwelder Chrome II have downmix coefficients in place of what is listed as padding in the SAMG chapters, with some padding. Discwelder-generated discs, however, should not be considered standard, and since I have seen no officially authored disc that does this, I have not included it. This should not affect behavior, only this zero check may fail in the case of a Discwelder-authored disc.</p>
+
+                <h5 id="amgi" class="mt-4">AMGI</h5>
+                <pre><code>/**
+ * AMGI
+ *
+ * The following structures relate to the Audio Manager, exclusive to DVD-Audio discs
+ */
+
+/**
+ * Audio Manager Information Management Table.
+ */
+typedef struct {
+  char     amg_identifier[12];
+  uint32_t amg_start_sector;
+  uint8_t  zero_1[12];
+  uint32_t amgi_last_sector;
+  uint16_t specification_version;
+  uint8_t  zero_2[4];
+  uint16_t amg_nr_of_volumes;
+  uint16_t amg_this_volume_nr;
+  uint8_t  disc_side;
+  uint8_t  zero_3[4];
+  uint8_t  autoplay;
+  uint32_t audio_sv_ifo_relative_p;
+  uint16_t unknown_1; /* some discs have a value here, undocumented in DVD-Audio specs */
+  uint8_t  zero_4[8];
+  uint8_t  vmg_nr_of_title_sets;  /* Number of video titlesets in audio zone. */
+  uint8_t  amg_nr_of_title_sets;  /* Number of audio titlesets in audio zone. */
+  uint8_t  unknown_2[32]; /* may be set to zeros */
+  uint8_t  unknown_3[8]; /* may be set to zeros */
+  uint8_t  zero_5[24];  
+  uint32_t amg_end_byte_address;
+  uint8_t  unknown_4[4]; /* may be set to zeros */
+  uint8_t  zero_6[56];  
+  uint16_t menu_prescence_1; /* may be set to zero, or some other value, optional field*/
+  uint8_t  unknown_5[4];  
+  uint16_t unknown_6; /* should be 0x01 */
+  uint8_t  zero_7[2];  
+  uint16_t amg_nr_of_zones; /* may be set to 0x02*/
+  uint8_t  zero_8[2];  
+  uint16_t menu_prescence_2; /* may be set to 0x03*/
+  uint8_t  zero_9[48];  
+  uint8_t  last_sector_audio_sys_space;  
+  uint8_t  zero_10[79];  
+  uint8_t  menu_prescence_3; /* will be set to 0x01*/
+    /* XXX lots of padding after this to complete the sector*/
+} ATTRIBUTE_PACKED amgi_mat_t;
+#define AMGI_MAT_SIZE 337U</code></pre>
+                
+                <p>The AMGI_MAT is one of the structures contained within AUDIO_TS.IFO. It very closely resembles VMGI_MAT in DVD-Video and, according to the unofficial documentation, contains a lot of the same fields. These fields seem to be used for video linking and menus. I would not consider these fields to be set in stone; there seem to be inaccuracies.</p>
+
+                <h5 id="disc-overview-table" class="mt-4">Disc Overview Table</h5>
+                <pre><code>/* Sector 2 may have video tracks, sector 3 will not. If there are no video tracks the tables will be the same*/
+
+/*this struct repeats for every audio or video track*/
+typedef struct {
+  uint8_t  type_and_rank; /*first nibble is type, second rank, from 1-9*/
+  uint8_t  nr_chapters_in_title;
+  uint8_t  nr_visible_chapters_in_vts_title; /* this will be zeros in an audio record */
+  uint8_t  zero_1;
+  uint32_t len_audio_zone_pts; /* this is MPEG time, Not DVD time */
+
+  uint8_t  group_property; /* in a video track, this is video titleset number, in audio its rank of group */
+  uint8_t  title_property; /* in video track this is title number , in audio track this is rank of title*/
+  uint32_t ts_pointer_relative_sector; /* for ats or vts*/
+} ATTRIBUTE_PACKED track_info_t;
+#define TRACK_INFO_SIZE 14U
+
+typedef struct {
+  uint16_t     nr_of_titles;
+  uint16_t     last_byte_in_table;
+  track_info_t *tracks_info;
+} ATTRIBUTE_PACKED tracks_info_table_t;
+#define TRACKS_INFO_TABLE_SIZE 4U</code></pre>
+                
+                <p>There are two of these tables, and if there is no video linking, they will be identical. The second table contains only the audio titles on the disc (on the AUDIO_TS side), so it is ideal for simple audio title playback. On its own, these tables are not enough to play DVD-Audio discs but must be used to open the ATS IFOs in order to access track-specific information.</p>
+                
+                <table class="struct-table">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>track_info_t</code></td>
+                            <td>This structure will be used for both Video and Audio tracks. All the same structure. For this reason, some fields (group_property, title_property) are a little ambiguous.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h5 id="atsi-mat" class="mt-4">atsi_mat_t</h5>
+                <pre><code>typedef struct {
+  /* 0x0000 for lpcm or 0x0100 for mlp, DTS seems to be 0x0500 and has different fields*/
+  uint8_t encoding;
+  uint8_t unknown1;
+  /* for stereo 0f 16 bit, 1f 20 bit, 2f 24 bit*/
+  /* f is a placeholder for the nibbles that is used for channel groups*/
+  /* otherwise if its 5.1 channels each nibble represents a channel group (G1, G2),*/
+  uint8_t  bitrate; 
+  /* 8f 44khz, 0f 48khz, 1f 96khz, 2f 192khz*/
+  /* otherwise if its 5.1 channels each nibble represents a channel group (G1, G2)*/
+  uint8_t  sampling_frequency; 
+  /* 00 1 channel, 01 2 channels, 11 5.1 channels*/
+  uint8_t  nr_channels;
+  uint8_t  unknown2;
+  uint8_t zero[10];
+} ATTRIBUTE_PACKED atsi_record_t;
+#define ATSI_RECORD_SIZE 16U
+
+
+/**
+ * ATS
+ *
+ * Structures relating to the Audio Title Set (ATS).
+ */
+
+/**
+ * Audio Title Set Information Management Table. Exclusive to DVD-Audio discs
+ */
+#define ATSI_RECORD_MAX_SIZE 8
+#define DOWNMIX_COEFF_MAX_SIZE 16
+
+typedef struct {
+  char          ats_identifier[12];
+  uint32_t      ats_last_sector; /* last sector of ATS_XX_0.BUP*/
+  uint8_t       zero_1[12];
+  uint32_t      atsi_last_sector; /* last sector of ATS_XX_0.IFO*/
+  uint16_t      specification_version;
+  uint32_t      unknown_1;
+  uint8_t       zero_2[90];
+  uint32_t      atsi_last_byte;
+  uint8_t       zero_3[60];
+  uint32_t      vtsm_vobs;       /* may be zeros */
+  uint32_t      atst_aobs;       /* atst or vtst */
+  uint32_t      vts_ptt_srpt;    /* may be zeros */
+  uint32_t      ats_pgci_ut;    /* sector */
+  uint32_t      vtsm_pgci_ut;    /* may be zeros */
+  uint32_t      vts_tmapt;       /* sector */
+  uint32_t      vtsm_c_adt;      /* sector */
+  uint32_t      vtsm_vobu_admap; /* sector */
+  uint32_t      vts_c_adt;       /* sector */
+  uint32_t      vts_vobu_admap;  /* sector */
+  uint8_t       zero_4[24];
+  /* the majority, or even all of these entries may be zero*/
+  atsi_record_t atsi_record[ATSI_RECORD_MAX_SIZE];
+  downmix_coeff_t downmix_coefficients[DOWNMIX_COEFF_MAX_SIZE];
+} ATTRIBUTE_PACKED atsi_mat_t;
+#define ATSI_MAT_SIZE 640U</code></pre>
+                
+                <p>This is the head of the ATS IFOs, and it once again resembles its DVD-Video counterpart. (Only the tables seem to be new additions.)</p>
+                
+                <table class="struct-table">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>atsi_record_t</code></td>
+                            <td>This seems to describe the available formats in the Audio Titleset. Once again, this information is not needed and is automatically deduced by the demuxer from the AOB sectors.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h5 id="atsi-title-table" class="mt-4">atsi_title_table_t</h5>
+                <pre><code>typedef struct {
+  uint16_t unknown_1; /* appears to be index, +0x100 for each iter*/
+  uint16_t unkown_2; /* either 0x0000 or 0x0100*/
+  uint32_t offset_record_table; 
+} ATTRIBUTE_PACKED atsi_title_index_t;
+#define ATSI_TITLE_INDEX_SIZE 8U
+
+/* this will be repeated for each track in each title*/
+typedef struct {
+  uint16_t unknown_1; /* will be 0x0000*/
+  uint16_t unknown_2; /* will be 0x0000*/
+  uint8_t  track_number_in_title;
+  uint8_t  unknown_3; /* will be 0x00*/
+  uint32_t first_pts_of_track; /* this is MPEG time, Not DVD time */
+
+  uint32_t length_pts_of_track; /* this is MPEG time, Not DVD time */
+
+  uint8_t  zero[6];
+} ATTRIBUTE_PACKED atsi_track_timestamp_t;
+#define ATSI_TRACK_TIMESTAMP_SIZE 20U
+
+/* this will come after all of the track timestamps, a set of 12-byte sector pointer records. One for each track*/
+typedef struct {
+  uint32_t unknown_1; /* will be 0x01000000*/
+  uint32_t start_sector; /* relative to first AOB file*/
+  uint32_t end_sector; /* relative to first end of AOB file */
+} ATTRIBUTE_PACKED atsi_track_pointer_t;
+#define ATSI_TRACK_POINTER_SIZE 12U
+
+typedef struct {
+  uint16_t unknown_1; /* will be 0x0000*/
+  uint8_t  nr_tracks; /* unsure if this holds up for other files*/
+  uint8_t  nr_pointer_records; /* unsure if this holds up for other files*/
+  uint32_t length_pts; /* this is MPEG time, Not DVD time */
+
+  uint16_t unknown_3; /* will be 0x0000*/
+  uint16_t unknown_4; /* will be 0x0010*/
+  uint16_t start_sector_pointers_table; /* pointer to start of sector pointers table, relative to start of title record*/
+  uint16_t unknown_5; /* will be 0x0000*/
+  atsi_track_timestamp_t *atsi_track_timestamp_rows; /*length determined by nr_tracks*/
+  atsi_track_pointer_t   *atsi_track_pointer_rows;
+} ATTRIBUTE_PACKED atsi_title_record_t;
+#define ATSI_TITLE_ROW_TABLE_SIZE 16U
+
+typedef struct {
+  uint16_t               nr_titles;
+  uint16_t               zero_1;
+  uint32_t               last_byte_address;
+  atsi_title_index_t     *atsi_index_rows;   /* length determined by nr_titles*/
+  atsi_title_record_t    *atsi_title_row_tables;   /* length determined by nr_titles*/
+} ATTRIBUTE_PACKED atsi_title_table_t;
+#define ATSI_TITLE_TABLE_SIZE 8U</code></pre>
+                
+                <p>This is likely the hardest table to read and is the main table used in playback. Its structure is somewhat bizarre, and there are fields and even row types that are not documented anywhere and that only appear in certain discs. (I assume they are related to menus.) Due to the index offset records used to navigate the table, this does not cause any issues though.</p>
+                
+                <div class="info-box">
+                    <div class="info-title">Additional Information</div>
+                    <p>Some information on this is available at: <a href="https://code.videolan.org/videolan/libdvdread/-/issues/22" target="_blank">https://code.videolan.org/videolan/libdvdread/-/issues/22</a></p>
+                </div>
+                
+                <p>The structure should be clarified since it is not as it is described in the unofficial specifications.</p>
+                
+                <table class="struct-table">
+                    <thead>
+                        <tr>
+                            <th>Structure</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>atsi_title_table_t</code></td>
+                            <td>This is the main table and contains two arrays: one with the index offsets, which corresponds to the number of titles, and another array of tables that is also determined by the number of titles, <code>atsi_title_row_tables</code>. This is an array of tables with different types of rows/records.</td>
+                        </tr>
+                        <tr>
+                            <td><code>atsi_title_record_t</code></td>
+                            <td>This table describes the title track layout. It contains two dynamically allocated arrays. These two are allocated based off different fields, and this I suspect is because of trackpoints. <code>nr_tracks</code> is used to determine the size of the timestamp rows and <code>nr_pointer_records</code> determines the size of the pointer rows. This was clarified from analysis of a hex data dump of some discs. It seems that the size of the pointer rows includes, in addition to tracks, trackpoints that can be seeked to.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="info-box">
+                    <div class="info-title">IFO Prints and Reads</div>
+                    <p>Along with all of this, there is a series of new IFO Prints and Reads for these structures. All methods of initially selecting an IFO file to open should also set the ifo_format.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- libdvdcss Additions -->
+        <div class="card" id="libdvdcss-additions">
+            <div class="card-header">
+                Additions to libdvdcss
+            </div>
+            <div class="card-body">
+                <p>A new header file is provided for the dvdinput functions. These reuse the dvdcss struct but ignore the fields related exclusively to CSS encryption and use their own internal CPXM struct for decryption.</p>
+                
+                <div class="api-function">
+                    <div class="function-name">dvdcss_open</div>
+                    <p>Should be used regardless, as they will be the same</p>
+                </div>
+                
+                <div class="api-function">
+                    <div class="function-name">dvdcpxm_init</div>
+                    <p>An additional step that did not exist previously in the dvdcss methods. This initialization of CPXM discs needed to be split into two: one before the disc was actually opened, and one after.</p>
+                </div>
+                
+                <p>This is because this encryption method needs to read a file that exists within the disc (The MKB) in order to initialize its internal struct.</p>
+                
+                <div class="disc-structure">
+                    <h6>OS-Agnostic Implementation</h6>
+                    <p>This task is delegated to libdvdread, and <code>dvdcpxm_init</code> will be fed a pointer to a byte array of this file. The reason it had to be done this way was because the initial libdvdcpxm library was written for Windows, and on Windows optical drives are mounted and can be inspected as such. For other operating systems, they may remain devices. To make this functionality OS-agnostic, libdvdread is used for the reading part, and the parsing and processing is done in libdvdcss.</p>
+                </div>
+                
+                <div class="info-box">
+                    <div class="info-title">CPRM Support</div>
+                    <p>CPRM is included due to its inclusion in the libdvdcpxm library, though it is untested due to lack of material, and it is likely that very few DVD-Audio discs use this scheme (if any). Though if there were such a disc, this library "may" be able to decrypt it.</p>
+                </div>
+                
+                <p><code>dvdcpxm_read</code> functions use <code>cpxm_decrypt</code> instead of <code>css_unscramble</code>, and <code>dvdcpxm_close</code> and <code>seek</code> take away any unnecessary behavior that would be done if you used dvdcss methods in place of them.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="index.html">← Back to Final Report</a>
+                <a href="https://www.videolan.org/" target="_blank">VideoLAN Organization</a>
+                <a href="https://code.videolan.org/videolan/libdvdread" target="_blank">libdvdread</a>
+                <a href="https://code.videolan.org/videolan/libdvdcss" target="_blank">libdvdcss</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>
