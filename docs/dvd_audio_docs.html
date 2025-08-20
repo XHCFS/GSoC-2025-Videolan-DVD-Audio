@@ -729,7 +729,7 @@ typedef struct {
 #define AMGI_MAT_SIZE 337U</code></pre>
                 
                 <p>The AMGI_MAT is one of the structures contained within AUDIO_TS.IFO. It very closely resembles VMGI_MAT in DVD-Video and, according to the unofficial documentation, contains a lot of the same fields. These fields seem to be used for video linking and menus. I would not consider these fields to be set in stone; there seem to be inaccuracies.</p>
-
+                <p>the unknown_1 field is not in the unofficial specifications and is instead a part of the padding bellow it, as is written. However, Some values were discovered here on commercial discs so it was best to leave it as an unknown field.</p>
                 <h5 id="disc-overview-table" class="mt-4">Disc Overview Table</h5>
                 <pre><code>/* Sector 2 may have video tracks, sector 3 will not. If there are no video tracks the tables will be the same*/
 
