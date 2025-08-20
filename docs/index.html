@@ -188,27 +188,81 @@
         
         .disc-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
             margin-top: 1.5rem;
         }
         
         .disc-item {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
             border: 1px solid #e9ecef;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .disc-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .disc-image-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .disc-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .disc-item:hover .disc-image {
+            transform: scale(1.05);
+        }
+        
+        .disc-status-overlay {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .disc-status-overlay.encrypted {
+            background: rgba(220, 53, 69, 0.9);
+        }
+        
+        .disc-status-overlay.unencrypted {
+            background: rgba(40, 167, 69, 0.9);
+        }
+        
+        .disc-content {
+            padding: 1.25rem;
+            text-align: center;
         }
         
         .disc-title {
             font-weight: 600;
+            font-size: 1rem;
             margin-bottom: 0.5rem;
+            color: #212529;
+            line-height: 1.3;
         }
         
         .disc-status {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #6c757d;
+            font-style: italic;
         }
         
         .demo-showcase {
@@ -550,6 +604,15 @@
                 width: 200px;
                 text-align: center;
             }
+            
+            .disc-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+            
+            .disc-image-container {
+                height: 150px;
+            }
         }
     </style>
 </head>
@@ -639,20 +702,44 @@
                 <h5 class="mt-4 mb-3">Tested Discs</h5>
                 <div class="disc-grid">
                     <div class="disc-item">
-                        <div class="disc-title">Deep Purple – Machine Head</div>
-                        <div class="disc-status">(encrypted)</div>
+                        <div class="disc-image-container">
+                            <img src="machine-head.jpg" alt="Deep Purple - Machine Head Album Cover" class="disc-image">
+                            <div class="disc-status-overlay encrypted">Encrypted</div>
+                        </div>
+                        <div class="disc-content">
+                            <div class="disc-title">Deep Purple – Machine Head</div>
+                            <div class="disc-status">DVD-Audio disc with CPPM protection</div>
+                        </div>
                     </div>
                     <div class="disc-item">
-                        <div class="disc-title">Brain Salad Surgery</div>
-                        <div class="disc-status">(unencrypted)</div>
+                        <div class="disc-image-container">
+                            <img src="brain-salad-surgery.jpg" alt="Brain Salad Surgery Album Cover" class="disc-image">
+                            <div class="disc-status-overlay unencrypted">Unencrypted</div>
+                        </div>
+                        <div class="disc-content">
+                            <div class="disc-title">Brain Salad Surgery</div>
+                            <div class="disc-status">DVD-Audio disc without encryption</div>
+                        </div>
                     </div>
                     <div class="disc-item">
-                        <div class="disc-title">Fleetwood Mac – Say You Will</div>
-                        <div class="disc-status">(encrypted)</div>
+                        <div class="disc-image-container">
+                            <img src="fleetwood-mac.jpg" alt="Fleetwood Mac - Say You Will Album Cover" class="disc-image">
+                            <div class="disc-status-overlay encrypted">Encrypted</div>
+                        </div>
+                        <div class="disc-content">
+                            <div class="disc-title">Fleetwood Mac – Say You Will</div>
+                            <div class="disc-status">DVD-Audio disc with CPPM protection</div>
+                        </div>
                     </div>
                     <div class="disc-item">
-                        <div class="disc-title">Eagles – Hotel California</div>
-                        <div class="disc-status">(encrypted)</div>
+                        <div class="disc-image-container">
+                            <img src="hotel-california.jpg" alt="Eagles - Hotel California Album Cover" class="disc-image">
+                            <div class="disc-status-overlay encrypted">Encrypted</div>
+                        </div>
+                        <div class="disc-content">
+                            <div class="disc-title">Eagles – Hotel California</div>
+                            <div class="disc-status">DVD-Audio disc with CPPM protection</div>
+                        </div>
                     </div>
                 </div>
                 
