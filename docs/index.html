@@ -769,7 +769,7 @@
                 Project Impact
             </div>
             <div class="card-body">
-                <p>This work builds the foundation for full DVD-Audio disc capabilities, making it by far the most thoroughly implemented DVD-Audio code so far. While many DVD-Audio discs are also DVD-Video, not all are, and DVD-Audio contains far higher audio quality as well as features built specifically for music albums that don't exist in DVD-Video, such as song lyrics that will now be easier to implement in the future. Due to how uncommon these discs are, they are considered collectors' items and require special DVD players to use fully. Making the software to play these discs more widely available will help preserve this media long term, which aligns with VLC's goals. Currently, my additions are included in the changes from libdvdread version 6.1.3 to 7.0.0, and from libdvdcss version 1.4.3 to 1.5.<\p>
+                <p>This work builds the foundation for full DVD-Audio disc capabilities, making it by far the most thoroughly implemented DVD-Audio code so far. While many DVD-Audio discs are also DVD-Video, not all are, and DVD-Audio contains far higher audio quality as well as features built specifically for music albums that don't exist in DVD-Video, such as song lyrics that will now be easier to implement in the future. Due to how uncommon these discs are, they are considered collectors' items and require special DVD players to use fully. Making the software to play these discs more widely available will help preserve this media long term, which aligns with VLC's goals.</p>
             </div>
         </div>
         
@@ -782,7 +782,7 @@
                 <div class="merge-requests">
                     <!-- libdvdread -->
                     <div class="mr-section">
-                        <div class="mr-title">libdvdread</div>
+                        <div class="mr-title">libdvdread (version 6.1.3 to 7.0.0)</div>
                         <div class="mr-item">
                             <div class="mr-info">
                                 <div class="mr-name">Initial DVD-Audio additions</div>
@@ -815,7 +815,7 @@
 
                     <!-- libdvdcss -->
                     <div class="mr-section">
-                        <div class="mr-title">libdvdcss</div>
+                        <div class="mr-title">libdvdcss (version 1.4.3 to 1.5)</div>
                         <div class="mr-item">
                             <div class="mr-info">
                                 <div class="mr-name">Initial CPPM support integration</div>
@@ -827,11 +827,11 @@
 
                     <!-- VLC -->
                     <div class="mr-section">
-                        <div class="mr-title">VLC</div>
+                        <div class="mr-title">VLC (version 4.0.0)</div>
                         <div class="mr-item">
                             <div class="mr-info">
                                 <div class="mr-name">DVD-Audio disc menu addition and submodule</div>
-                                <div class="mr-stats">+512 / −126 </div>
+                                <div class="mr-stats">+512 / −126 lines</div>
                             </div>
                             <a href="https://code.videolan.org/videolan/vlc/-/merge_requests/7542" class="mr-link">View</a>
                         </div>
@@ -840,7 +840,7 @@
             </div>
         </div>
 
-        <!-- Project Timeline and Impact -->
+        <!-- Project Timeline -->
         <div class="card">
             <div class="card-header">
                 Project Timeline
@@ -849,25 +849,24 @@
                 <div class="challenge-list">
                     <div class="challenge-item">
                         <div class="challenge-title">Phase 1: Research and Discovery (early weeks)</div>
-                        <p>This took up a significant portion of this project. Familiarizing myself with the specifications for both CPPM, and DVD-Audio discs as well as understanding the already existing <code>libdvdread</code> and <code>libdvdcss</code> code was not only quite challenging but I would say it was probably the main hurdle I needed to cross before this project could materialize. I would say this phase was around a month or more.</p>
+                        <p>This took up a significant portion of this project. Familiarizing myself with the specifications for both CPPM and DVD-Audio discs as well as understanding the already existing <code>libdvdread</code> and <code>libdvdcss</code> code was not only quite challenging but I would say it was probably the main hurdle I needed to cross before this project could materialize. I would say this phase was around a month or more.</p>
                     </div>
                     <div class="challenge-item">
                         <div class="challenge-title">Core Implementation (mid-project)</div>
-                        <p>Once I had built an understanding of everything, The changes I needed to make became very clear. After I had made the modifications to both libraries, fixing up and understanding how to create a VLC module that fit into the current DVD module took a substantial amount of time as well. this phase was a little less than a month.</p>
+                        <p>Once I had built an understanding of everything, the changes I needed to make became very clear. After I had made the modifications to both libraries, fixing up and understanding how to create a VLC module that fit into the current DVD module took a substantial amount of time as well. This phase was a little less than a month.</p>
                     </div>
                     <div class="challenge-item">
                         <div class="challenge-title">Integration and refinement (later weeks)</div>
-                        <p>It was in this phase that I was able to get my first encrypted disc to play, and I started to make merge requests for my changes in the DVD libraries. I would say this was the phase with the most work, considering that code refactoring was a very labor intensive process, though it was very rewarding seeing my work become ready to be a part of the VLC codebase. This phase lasted less than a month, though I had to do more work than I usually had to.</p>
+                        <p>It was in this phase that I was able to get my first encrypted disc to play, and I started to make merge requests for my changes in the DVD libraries. I would say this was the phase with the most work, considering that code refactoring was a very labor-intensive process, though it was very rewarding seeing my work become ready to be a part of the VLC codebase. This phase lasted less than a month, though I had to do more work than I usually had to.</p>
                     </div>
                     <div class="challenge-item">
                         <div class="challenge-title">Testing and Validation (later weeks)</div>
-                        <p>It was in these weeks that I was cleaning up and validating the changes I had made to my libraries. <code>libdvdread</code> required a lot of changes and adjustments to ensure that its use was seamless and logical, with regards to DVD-Audio behavior. It was around this phase that I also began drafting my final report and notes that I had in my own little documentation page (link available in the header). This was when my changes to vlc had also been thoroughly reviewed and deemed acceptable. </p>
+                        <p>It was in these weeks that I was cleaning up and validating the changes I had made to my libraries. <code>libdvdread</code> required a lot of changes and adjustments to ensure that its use was seamless and logical, with regards to DVD-Audio behavior. It was around this phase that I also began drafting my final report and notes that I had in my own little documentation page (link available in the header). This was when my changes to VLC had also been thoroughly reviewed and deemed acceptable.</p>
                     </div>
                 </div>
-
             </div>
         </div>
-        
+
         <!-- Challenges -->
         <div class="card">
             <div class="card-header">
@@ -892,41 +891,14 @@
                         <p>Reorganizing commits to fit VLC code standards was very time-consuming, though the remainder of the project ran more smoothly after the initial research phase.</p>
                     </div>
                     <div class="challenge-item">
-                        <div class="challenge-title">MLP Demuxer issues</div>
-                        <p>The VLC demuxer had some issues working with MLP DVD-Audio streams that were difficult to resolve; This issue was dealt with by my mentor, Steve Lhomme, in a seperate merge request.</p>
+                        <div class="challenge-title">MLP Demuxer Issues</div>
+                        <p>The VLC demuxer had some issues working with MLP DVD-Audio streams that were difficult to resolve; this issue was dealt with by my mentor, Steve Lhomme, in a separate merge request.</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Future Work -->
-        <div class="card">
-            <div class="card-header">
-                Future Work
-            </div>
-            <div class="card-body">
-                <ul class="future-list">
-                    <li>
-                        <div class="future-title">Hybrid Disc Support</div>
-                        <p>Support for hybrid disc behavior with video linking titles is not yet implemented.</p>
-                    </li>
-                    <li>
-                        <div class="future-title">Menu Integration</div>
-                        <p>DVD-Audio menu integration similar to that in <code>libdvdnav</code> needs to be added.</p>
-                    </li>
-                    <li>
-                        <div class="future-title">Still Images</div>
-                        <p>Exposing still images to the API should be added, as indicated in the Audio Still Video Set (ASVS) specifications.</p>
-                    </li>
-                    <li>
-                        <div class="future-title">Documentation</div>
-                        <p>The information required for these features is currently unavailable and undocumented in the unofficial specifications.</p>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- Learning and Skill Development -->
+        <!-- Learning and Skills Development -->
         <div class="card">
             <div class="card-header">
                 Learning and Skills Development
@@ -935,11 +907,11 @@
                 <ul class="future-list">
                     <li>
                         <div class="future-title">Reading/Extending Large Codebases</div>
-                        <p>Since I had never worked on a project of this size before, let alone a project that wasn't my own, so this was a novel experience for me. I can now say for sure that after some initial friction, I've become much quicker at reading code and understanding how large codebases work.</p>
+                        <p>Since I had never worked on a project of this size before, let alone a project that wasn't my own, this was a novel experience for me. I can now say for sure that after some initial friction, I've become much quicker at reading code and understanding how large codebases work.</p>
                     </li>
                     <li>
                         <div class="future-title">More Advanced Git Skills</div>
-                        <p>I, of course, was already familiar with git, using it to coordinate with teamates on code projects before this. Though I had never used many of its more advanced features like rebase, reflog, and I had never really had to organize and keep my commits easily workable. I've also become very familiar with working on merge requests, issues, etc.</p>
+                        <p>I, of course, was already familiar with Git, using it to coordinate with teammates on code projects before this. Though I had never used many of its more advanced features like rebase, reflog, and I had never really had to organize and keep my commits easily workable. I've also become very familiar with working on merge requests, issues, etc.</p>
                     </li>
                     <li>
                         <div class="future-title">Code Practices/ Getting Accustomed to the Review Process</div>
