@@ -950,10 +950,12 @@ typedef struct {
             </div>
             <div class="card-body">
                 <p>A new header file is provided for the dvdinput functions. These reuse the dvdcss struct but ignore the fields related exclusively to CSS encryption and use their own internal CPXM struct for decryption.</p>
+
+                <p>In order to properly decrypt the audio data, libdvdcss needs access to the disc content (this will be explained later). libdvdcss however can not read files. </p>
                 
                 <div class="disc-structure">
-                    <h6>OS-Agnostic Implementation</h6>
-                    <p>This task is delegated to libdvdread, and <code>dvdcpxm_init</code> will be fed a pointer to a byte array of this file. The reason it had to be done this way was because the initial libdvdcpxm library was written for Windows, and on Windows optical drives are mounted and can be inspected as such. For other operating systems, they may remain devices. To make this functionality OS-agnostic, libdvdread is used for the reading part, and the parsing and processing is done in libdvdcss.</p>
+                    <h6>OS-Agnostic Implementation for Reading The MKB</h6>
+                    <p>For this reason, this task is delegated to libdvdread; <code>dvdcpxm_init</code> will be fed a pointer to a byte array of this file through functions in libdvdread. The reason it had to be done this way was because the initial libdvdcpxm library was written for Windows, and on Windows optical drives are mounted and can be inspected as such. For other operating systems, they may remain devices. To make this functionality OS-agnostic, libdvdread is used for the reading part, and the parsing and processing is done in libdvdcss.</p>
                 </div>
             </div>
         </div>
