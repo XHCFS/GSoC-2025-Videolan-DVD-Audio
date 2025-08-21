@@ -411,9 +411,8 @@
                                 <li><a href="#atsi-title-table">atsi_title_table_t</a></li>
                             </ul>
                         </li>
-                        <li><a href="#libdvdcss-additions">Additions to libdvdcss</a>
+                        <li><a href="#libdvdcss-overview">Libdvdcss Additions</a></li>
                             <ul class="toc-sub">
-                                <li><a href="#libdvdcss-overview">Overview & Integration</a></li>
                                 <li><a href="#cpxm-background">CPXM Encryption Background</a></li>
                                 <li><a href="#cpxm-api-functions">New CPXM API Functions</a></li>
                                 <li><a href="#cpxm-technical-details">CPXM Decryption Implementation</a></li>
@@ -944,72 +943,72 @@ typedef struct {
             </div>
         </div>
             
-    <!-- Overview Card -->
-    <div class="card" id="libdvdcss-overview">
-        <div class="card-header">
-            libdvdcss Overview & Integration
-        </div>
-        <div class="card-body">
-            <p>A new header file is provided for the dvdinput functions. These reuse the dvdcss struct but ignore the fields related exclusively to CSS encryption and use their own internal CPXM struct for decryption.</p>
-            
-            <div class="disc-structure">
-                <h6>OS-Agnostic Implementation</h6>
-                <p>This task is delegated to libdvdread, and <code>dvdcpxm_init</code> will be fed a pointer to a byte array of this file. The reason it had to be done this way was because the initial libdvdcpxm library was written for Windows, and on Windows optical drives are mounted and can be inspected as such. For other operating systems, they may remain devices. To make this functionality OS-agnostic, libdvdread is used for the reading part, and the parsing and processing is done in libdvdcss.</p>
+        <!-- Overview Card -->
+        <div class="card" id="libdvdcss-overview">
+            <div class="card-header">
+                libdvdcss Overview & Integration
+            </div>
+            <div class="card-body">
+                <p>A new header file is provided for the dvdinput functions. These reuse the dvdcss struct but ignore the fields related exclusively to CSS encryption and use their own internal CPXM struct for decryption.</p>
+                
+                <div class="disc-structure">
+                    <h6>OS-Agnostic Implementation</h6>
+                    <p>This task is delegated to libdvdread, and <code>dvdcpxm_init</code> will be fed a pointer to a byte array of this file. The reason it had to be done this way was because the initial libdvdcpxm library was written for Windows, and on Windows optical drives are mounted and can be inspected as such. For other operating systems, they may remain devices. To make this functionality OS-agnostic, libdvdread is used for the reading part, and the parsing and processing is done in libdvdcss.</p>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <!-- CPXM Background Card -->
-    <div class="card" id="cpxm-background">
-        <div class="card-header">
-            CPXM Encryption Background
-        </div>
-        <div class="card-body">
-            <p>CPXM (the X being a placeholder variable that can either be R or P) encryption was created by the 4C entity, with the specifications for the format as well as DVD-Audio encryption in particular available at <a href="http://www.4centity.com/specification.aspx" target="_blank">this source</a> with specifically the following "C2 Block Cipher Specification, Revision 1.0", "CPPM Specification, Introduction and Common Cryptographic Elements" and "CPPM Specification, DVD Book, Revision 0.93" being seemingly the main sources for DVD-Audio discs</p>
-            
-            <p>Based off these specifications, libdvdcpxm was written by a user of the DOOM9 forum named "paradynamic" and was originally distributed <a href="https://web.archive.org/web/20130831201810/http://avisynth.org/mediawiki/DVDAGuide" target="_blank">here</a>, the core decryption logic and imports (which exist in the files libdvdcpxm.c, libdvdcpxm.h and dvdcpxm.h) was borrowed from this library and integrated into libdvdcss. It seems originally this library borrowed some logic from libdvdcss, such as the ioctl calls, and the USB disc drive validation which is necessary for use with a computer (this is the same system used in CSS encryption). Details on this are available here in <a href="http://www.4centity.com/document.aspx?doc=6c1b363f-1906-473d-bcc2-56aa0d5f50e0" target="_blank">section 2.4</a></p>
-            
-            <p>A similar DVD-Audio plugin exists for foobar available here <a href="https://sourceforge.net/projects/dvdadecoder/" target="_blank">https://sourceforge.net/projects/dvdadecoder/</a>, written by the user Maxim V.Anisiutkin with a slightly reworked libdvdcpxm in cpp that has partially implemented ioctl calls in macOS, Linux for CPRM, as well as a "watermark detector" and the ability to view album art.</p>
-        </div>
-    </div>
-    
-    <!-- API Functions Card -->
-    <div class="card" id="cpxm-api-functions">
-        <div class="card-header">
-            New CPXM API Functions
-        </div>
-        <div class="card-body">
-            <div class="api-function">
-                <div class="function-name">dvdcss_open</div>
-                <p>Should be used regardless, as they will be the same</p>
+        
+        <!-- CPXM Background Card -->
+        <div class="card" id="cpxm-background">
+            <div class="card-header">
+                CPXM Encryption Background
             </div>
-            
-            <div class="api-function">
-                <div class="function-name">dvdcpxm_init</div>
-                <p>An additional step that did not exist previously in the dvdcss methods. This initialization of CPXM discs needed to be split into two: one before the disc was actually opened, and one after.</p>
-            </div>
-            
-            <div class="api-function">
-                <div class="function-name">dvdcpxm_read, dvdcpxm_readv</div>
-                <p>This uses libdvdcpxm decrypt functions in place of css_unscramble, which utilizes the C2 cipher</p>
-            </div>
-            
-            <div class="api-function">
-                <div class="function-name">dvdcpxm_seek</div>
-                <p>Standard seek, removed all of the additional behavior inside of dvdcss functions that is unnecessary</p>
+            <div class="card-body">
+                <p>CPXM (the X being a placeholder variable that can either be R or P) encryption was created by the 4C entity, with the specifications for the format as well as DVD-Audio encryption in particular available at <a href="http://www.4centity.com/specification.aspx" target="_blank">this source</a> with specifically the following "C2 Block Cipher Specification, Revision 1.0", "CPPM Specification, Introduction and Common Cryptographic Elements" and "CPPM Specification, DVD Book, Revision 0.93" being seemingly the main sources for DVD-Audio discs</p>
+                
+                <p>Based off these specifications, libdvdcpxm was written by a user of the DOOM9 forum named "paradynamic" and was originally distributed <a href="https://web.archive.org/web/20130831201810/http://avisynth.org/mediawiki/DVDAGuide" target="_blank">here</a>, the core decryption logic and imports (which exist in the files libdvdcpxm.c, libdvdcpxm.h and dvdcpxm.h) was borrowed from this library and integrated into libdvdcss. It seems originally this library borrowed some logic from libdvdcss, such as the ioctl calls, and the USB disc drive validation which is necessary for use with a computer (this is the same system used in CSS encryption). Details on this are available here in <a href="http://www.4centity.com/document.aspx?doc=6c1b363f-1906-473d-bcc2-56aa0d5f50e0" target="_blank">section 2.4</a></p>
+                
+                <p>A similar DVD-Audio plugin exists for foobar available here <a href="https://sourceforge.net/projects/dvdadecoder/" target="_blank">https://sourceforge.net/projects/dvdadecoder/</a>, written by the user Maxim V.Anisiutkin with a slightly reworked libdvdcpxm in cpp that has partially implemented ioctl calls in macOS, Linux for CPRM, as well as a "watermark detector" and the ability to view album art.</p>
             </div>
         </div>
-    </div>
-    
-    <!-- Technical Implementation Card -->
-    <div class="card" id="cpxm-technical-details">
-        <div class="card-header">
-            CPXM Decryption Implementation
+        
+        <!-- API Functions Card -->
+        <div class="card" id="cpxm-api-functions">
+            <div class="card-header">
+                New CPXM API Functions
+            </div>
+            <div class="card-body">
+                <div class="api-function">
+                    <div class="function-name">dvdcss_open</div>
+                    <p>Should be used regardless, as they will be the same</p>
+                </div>
+                
+                <div class="api-function">
+                    <div class="function-name">dvdcpxm_init</div>
+                    <p>An additional step that did not exist previously in the dvdcss methods. This initialization of CPXM discs needed to be split into two: one before the disc was actually opened, and one after.</p>
+                </div>
+                
+                <div class="api-function">
+                    <div class="function-name">dvdcpxm_read, dvdcpxm_readv</div>
+                    <p>This uses libdvdcpxm decrypt functions in place of css_unscramble, which utilizes the C2 cipher</p>
+                </div>
+                
+                <div class="api-function">
+                    <div class="function-name">dvdcpxm_seek</div>
+                    <p>Standard seek, removed all of the additional behavior inside of dvdcss functions that is unnecessary</p>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <p>As mentioned before, dvdcpxm_init is a second initialization step that is needed after dvdcss_open, this is because this encryption method needs to read a file that exists within the disc called the MKB (The Media Key Block) in order to initialize the internal "cpxm" struct added to dvdcss that is used for decryption</p>
-            
-            <pre><code>
+        
+        <!-- Technical Implementation Card -->
+        <div class="card" id="cpxm-technical-details">
+            <div class="card-header">
+                CPXM Decryption Implementation
+            </div>
+            <div class="card-body">
+                <p>As mentioned before, dvdcpxm_init is a second initialization step that is needed after dvdcss_open, this is because this encryption method needs to read a file that exists within the disc called the MKB (The Media Key Block) in order to initialize the internal "cpxm" struct added to dvdcss that is used for decryption</p>
+                
+                <pre><code>
 typedef struct cpxm
 {
    uint64_t media_key;
@@ -1017,17 +1016,18 @@ typedef struct cpxm
    uint64_t id_media;
    uint64_t vr_k_te;
 } cpxm;     
-            </code></pre>
-            
-            <p>This struct has its values filled by dvdcpxm_init, the important members here are id_album and media_key. As listed in the 4C entity specifications, these two keys are used on each encrypted block of audio data in order to decipher it. media_key is produced from processing the MKB. These two keys are then used in conjunction with keys stored in the first 128 bytes of each sector of AOB data to crack the encryption. id_media and vr_k_te are related to CPRM, which may not be fully implemented at the moment.</p>
-            <p>the main export from libdvdcpxm is dvdcpxm_decrypt, this is what has been used to build the new dvdpcpxm header for libdvdcss</p>
-            <div class="info-box">
-                <div class="info-title">CPRM Support</div>
-                <p>CPRM is included due to its inclusion in the libdvdcpxm library, though it is untested due to lack of material, and it is likely that very few DVD-Audio discs use this scheme (if any). Though if there were such a disc, this library "may" be able to decrypt it.</p>
+                </code></pre>
+                
+                <p>This struct has its values filled by dvdcpxm_init, the important members here are id_album and media_key. As listed in the 4C entity specifications, these two keys are used on each encrypted block of audio data in order to decipher it. media_key is produced from processing the MKB. These two keys are then used in conjunction with keys stored in the first 128 bytes of each sector of AOB data to crack the encryption. id_media and vr_k_te are related to CPRM, which may not be fully implemented at the moment.</p>
+                <p>the main export from libdvdcpxm is dvdcpxm_decrypt, this is what has been used to build the new dvdpcpxm header for libdvdcss</p>
+                <div class="info-box">
+                    <div class="info-title">CPRM Support</div>
+                    <p>CPRM is included due to its inclusion in the libdvdcpxm library, though it is untested due to lack of material, and it is likely that very few DVD-Audio discs use this scheme (if any). Though if there were such a disc, this library "may" be able to decrypt it.</p>
+                </div>
             </div>
         </div>
     </div>
-
+    
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
