@@ -409,9 +409,10 @@
                                 <li><a href="#disc-overview-table">Disc Overview Table</a></li>
                                 <li><a href="#atsi-mat">atsi_mat_t</a></li>
                                 <li><a href="#atsi-title-table">atsi_title_table_t</a></li>
+                                <li><a href="#asvs">ASVS (Audio Still Video Set)</a></li>
                             </ul>
                         </li>
-                        <li><a href="#libdvdcss-overview">Libdvdcss Additions</a></li>
+                        <li><a href="#libdvdcss-overview">Libdvdcss Additions</a>
                             <ul class="toc-sub">
                                 <li><a href="#cpxm-background">CPXM Encryption Background</a></li>
                                 <li><a href="#cpxm-api-functions">New CPXM API Functions</a></li>
@@ -485,7 +486,7 @@
                 <div class="disc-structure">
                     <h6>General Structure</h6>
                     <p>Information taken from the Discwelder Chrome Manual:  <a href="discWelder_CHROME_Manual.pdf" target="_blank">available here for reference</a></p>
-                    <div class="hierarchy">Album (Disc
+                    <div class="hierarchy">Album (Disc)
 ├── Groups (Titlesets)
 │   ├── Titles (LPCM, MLP, DTS, Specials)
 │   │   ├── Tracks
@@ -735,7 +736,8 @@ typedef struct {
 #define AMGI_MAT_SIZE 337U</code></pre>
                 
                 <p>The AMGI_MAT is one of the structures contained within AUDIO_TS.IFO. It very closely resembles VMGI_MAT in DVD-Video and, according to the unofficial documentation, contains a lot of the same fields. These fields seem to be used for video linking and menus. I would not consider these fields to be set in stone; there seem to be inaccuracies.</p>
-                <p>the unknown_1 field is not in the unofficial specifications and is instead a part of the padding bellow it, as is written. However, Some values were discovered here on commercial discs so it was best to leave it as an unknown field.</p>
+                <p>The unknown_1 field is not in the unofficial specifications and is instead a part of the padding below it, as is written. However, some values were discovered here on commercial discs so it was best to leave it as an unknown field.</p>
+
                 <h5 id="disc-overview-table" class="mt-4">Disc Overview Table</h5>
                 <pre><code>/* Sector 2 may have video tracks, sector 3 will not. If there are no video tracks the tables will be the same*/
 
@@ -914,8 +916,8 @@ typedef struct {
                     <p>Some information on this is available at: <a href="https://code.videolan.org/videolan/libdvdread/-/issues/22" target="_blank">https://code.videolan.org/videolan/libdvdread/-/issues/22</a></p>
                 </div>
                 
-                <p>The structure should be clarified since it is not as it is described in the unofficial specifications </p>
-                <p>In atsi_title_record_t, the unofficial specifications mistakingly includes an extra unknown field. This was removed since no discs display this</p>
+                <p>The structure should be clarified since it is not as it is described in the unofficial specifications.</p>
+                <p>In atsi_title_record_t, the unofficial specifications mistakenly include an extra unknown field. This was removed since no discs display this.</p>
 
                 <table class="struct-table">
                     <thead>
@@ -940,6 +942,104 @@ typedef struct {
                     <div class="info-title">IFO Prints and Reads</div>
                     <p>Along with all of this, there is a series of new IFO Prints and Reads for these structures. All methods of initially selecting an IFO file to open should also set the ifo_format.</p>
                 </div>
+
+                <h5 id="asvs" class="mt-4">ASVS (Audio Still Video Set)</h5>
+                <p>The Audio Still Video Set (ASVS) structures manage still image frames that can be displayed during DVD-Audio playback. These frames are typically used for lyrics, menus, or album artwork synchronized with specific points in the audio.</p>
+
+                <h6 class="mt-3">Frame Groupings</h6>
+                <p>Frame groupings are unrelated to DVD-Audio audio groups. When multiple groupings exist, they represent sets of frames per audio track (typically lyric pages or per-track menus). Each DVD-Audio trackpoint requires an associated still frame.</p>
+
+                <div class="disc-structure">
+                    <h6>Grouping Behavior</h6>
+                    <p><strong>Multiple groupings present:</strong></p>
+                    <ul>
+                        <li>Frame records use relative sector offsets from the grouping's start_sector</li>
+                        <li>High bit (0x8000) set in frame_record_t marks grouping boundaries</li>
+                    </ul>
+                    <p><strong>Single grouping only:</strong></p>
+                    <ul>
+                        <li>Frame records contain absolute sector addresses (high bit clear)</li>
+                        <li>Indicates simple still frames without menus/lyrics</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <div class="info-title">Frame Extraction Notes</div>
+                    <p>There appears to be a header offset in the VOB file of 35 bytes. The <code>unknown2[72]</code> block likely contains encoder metadata (resolution, color format) and is likely not required for frame extraction.</p>
+                </div>
+
+                <h6 class="mt-3">ASVS Structures</h6>
+                
+                <p><strong>asvs_group_t</strong> - Describes a contiguous sequence of frames in the MPEG stream:</p>
+                <pre><code>typedef struct {
+  uint8_t  nr_frames;
+  uint8_t  unknown;
+  uint16_t start_frame;  /* seems to be the number of the start frame (index + 1) */
+  uint16_t zero1;
+  uint16_t start_sector; /* start sector of frame VOBU packet in AUDIO_TS.VOB */
+} ATTRIBUTE_PACKED asvs_group_t;
+#define ASVS_GROUP_SIZE 8U
+#define ASVS_GROUP_MAX_SIZE 99U</code></pre>
+
+                <p><strong>frame_record_t</strong> - Offset in sectors relative to the group start_sector:</p>
+                <pre><code>/**
+ * offset in sectors relative to the group start_sector
+ * total number of frames is the sum of nr_frames for each element in asvs_groups 
+ * If high bit set (0x8000): relative offset within group
+ * Otherwise: absolute frame position
+ */
+typedef uint16_t frame_record_t;
+#define ASVS_FRAME_RECORD_SIZE 2U</code></pre>
+
+                <p><strong>asvs_mat_t</strong> - Audio Still Video Set Management Table (exclusive to DVD-Audio discs):</p>
+                <pre><code>typedef struct {
+  char           asvs_identifier[12]; /* DVDAUDIOASVS */
+  uint16_t       asvs_nr_groups;      /* number of elements in asvs_groups */
+  uint16_t       specification_version; /* always 0x0012 */
+  uint16_t       zero1;
+  uint16_t       unknown1;            /* always 0x0002 */
+  uint16_t       zero2;
+  uint16_t       length_sectors;      /* seems like length of AUDIO_TS.VOB in sectors */
+  uint8_t        unknown2[72];        /* not sure what these are. 0x00108080 repeats a lot */
+  asvs_group_t   asvs_groups[ASVS_GROUP_MAX_SIZE]; /* size determined by asvs_nr_groups */
+  frame_record_t *frame_offsets_sectors;
+} ATTRIBUTE_PACKED asvs_mat_t;
+#define ASVS_MAT_SIZE 888U</code></pre>
+
+                <table class="struct-table">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>asvs_identifier</code></td>
+                            <td>12-character identifier: "DVDAUDIOASVS"</td>
+                        </tr>
+                        <tr>
+                            <td><code>asvs_nr_groups</code></td>
+                            <td>Determines the number of valid entries in the asvs_groups array</td>
+                        </tr>
+                        <tr>
+                            <td><code>specification_version</code></td>
+                            <td>Always 0x0012 for DVD-Audio</td>
+                        </tr>
+                        <tr>
+                            <td><code>length_sectors</code></td>
+                            <td>Appears to represent the length of AUDIO_TS.VOB in sectors</td>
+                        </tr>
+                        <tr>
+                            <td><code>asvs_groups</code></td>
+                            <td>Array of frame groupings, with the number of valid entries determined by asvs_nr_groups</td>
+                        </tr>
+                        <tr>
+                            <td><code>frame_offsets_sectors</code></td>
+                            <td>Dynamically allocated array where the total number of frames is the sum of nr_frames for each element in asvs_groups</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
             
@@ -951,7 +1051,7 @@ typedef struct {
             <div class="card-body">
                 <p>A new header file is provided for the dvdinput functions. These reuse the dvdcss struct but ignore the fields related exclusively to CSS encryption and use their own internal CPXM struct for decryption.</p>
 
-                <p>In order to properly decrypt the audio data, libdvdcss needs access to the disc content (this will be explained later). libdvdcss however can not read files. </p>
+                <p>In order to properly decrypt the audio data, libdvdcss needs access to the disc content (this will be explained later). libdvdcss however cannot read files.</p>
                 
                 <div class="disc-structure">
                     <h6>OS-Agnostic Implementation for Reading The MKB</h6>
@@ -966,9 +1066,9 @@ typedef struct {
                 CPXM Encryption Background
             </div>
             <div class="card-body">
-                <p>CPXM (the X being a placeholder variable that can either be R or P) encryption was created by the 4C entity, with the specifications for the format as well as DVD-Audio encryption in particular available at <a href="http://www.4centity.com/specification.aspx" target="_blank">this source</a> with specifically the following "C2 Block Cipher Specification, Revision 1.0", "CPPM Specification, Introduction and Common Cryptographic Elements" and "CPPM Specification, DVD Book, Revision 0.93" being seemingly the main sources for DVD-Audio discs</p>
+                <p>CPXM (the X being a placeholder variable that can either be R or P) encryption was created by the 4C entity, with the specifications for the format as well as DVD-Audio encryption in particular available at <a href="http://www.4centity.com/specification.aspx" target="_blank">this source</a> with specifically the following "C2 Block Cipher Specification, Revision 1.0", "CPPM Specification, Introduction and Common Cryptographic Elements" and "CPPM Specification, DVD Book, Revision 0.93" being seemingly the main sources for DVD-Audio discs.</p>
                 
-                <p>Based off these specifications, libdvdcpxm was written by a user of the DOOM9 forum named "paradynamic" and was originally distributed <a href="https://web.archive.org/web/20130831201810/http://avisynth.org/mediawiki/DVDAGuide" target="_blank">here</a>, the core decryption logic and imports (which exist in the files libdvdcpxm.c, libdvdcpxm.h and dvdcpxm.h) was borrowed from this library and integrated into libdvdcss. It seems originally this library borrowed some logic from libdvdcss, such as the ioctl calls, and the USB disc drive validation which is necessary for use with a computer (this is the same system used in CSS encryption). Details on this are available here in <a href="http://www.4centity.com/document.aspx?doc=6c1b363f-1906-473d-bcc2-56aa0d5f50e0" target="_blank">section 2.4</a></p>
+                <p>Based off these specifications, libdvdcpxm was written by a user of the DOOM9 forum named "paradynamic" and was originally distributed <a href="https://web.archive.org/web/20130831201810/http://avisynth.org/mediawiki/DVDAGuide" target="_blank">here</a>. The core decryption logic and imports (which exist in the files libdvdcpxm.c, libdvdcpxm.h and dvdcpxm.h) was borrowed from this library and integrated into libdvdcss. It seems originally this library borrowed some logic from libdvdcss, such as the ioctl calls, and the USB disc drive validation which is necessary for use with a computer (this is the same system used in CSS encryption). Details on this are available here in <a href="http://www.4centity.com/document.aspx?doc=6c1b363f-1906-473d-bcc2-56aa0d5f50e0" target="_blank">section 2.4</a>.</p>
                 
                 <p>A similar DVD-Audio plugin exists for foobar available here <a href="https://sourceforge.net/projects/dvdadecoder/" target="_blank">https://sourceforge.net/projects/dvdadecoder/</a>, written by the user Maxim V.Anisiutkin with a slightly reworked libdvdcpxm in cpp that has partially implemented ioctl calls in macOS, Linux for CPRM, as well as a "watermark detector" and the ability to view album art.</p>
             </div>
@@ -1008,20 +1108,18 @@ typedef struct {
                 CPXM Decryption Implementation
             </div>
             <div class="card-body">
-                <p>As mentioned before, dvdcpxm_init is a second initialization step that is needed after dvdcss_open, this is because this encryption method needs to read a file that exists within the disc called the MKB (The Media Key Block) in order to initialize the internal "cpxm" struct added to dvdcss that is used for decryption</p>
+                <p>As mentioned before, dvdcpxm_init is a second initialization step that is needed after dvdcss_open. This is because this encryption method needs to read a file that exists within the disc called the MKB (The Media Key Block) in order to initialize the internal "cpxm" struct added to dvdcss that is used for decryption.</p>
                 
-                <pre><code>
-typedef struct cpxm
+                <pre><code>typedef struct cpxm
 {
    uint64_t media_key;
    uint64_t id_album;
    uint64_t id_media;
    uint64_t vr_k_te;
-} cpxm;     
-                </code></pre>
+} cpxm;</code></pre>
                 
-                <p>This struct has its values filled by dvdcpxm_init, the important members here are id_album and media_key. As listed in the 4C entity specifications, these two keys are used on each encrypted block of audio data in order to decipher it. media_key is produced from processing the MKB. These two keys are then used in conjunction with keys stored in the first 128 bytes of each sector of AOB data to crack the encryption. id_media and vr_k_te are related to CPRM, which may not be fully implemented at the moment.</p>
-                <p>the main export from libdvdcpxm is dvdcpxm_decrypt, this is what has been used to build the new dvdpcpxm header for libdvdcss</p>
+                <p>This struct has its values filled by dvdcpxm_init. The important members here are id_album and media_key. As listed in the 4C entity specifications, these two keys are used on each encrypted block of audio data in order to decipher it. media_key is produced from processing the MKB. These two keys are then used in conjunction with keys stored in the first 128 bytes of each sector of AOB data to crack the encryption. id_media and vr_k_te are related to CPRM, which may not be fully implemented at the moment.</p>
+                <p>The main export from libdvdcpxm is dvdcpxm_decrypt, this is what has been used to build the new dvdpcpxm header for libdvdcss.</p>
                 <div class="info-box">
                     <div class="info-title">CPRM Support</div>
                     <p>CPRM is included due to its inclusion in the libdvdcpxm library, though it is untested due to lack of material, and it is likely that very few DVD-Audio discs use this scheme (if any). Though if there were such a disc, this library "may" be able to decrypt it.</p>
